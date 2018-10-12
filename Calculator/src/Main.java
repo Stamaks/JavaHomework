@@ -79,7 +79,7 @@ public class Main {
         if (xType.equals("int") && yType.equals("int"))
             System.out.println("x " + operation + " y = " + (int) result); //Округлится вниз, как и нужно.
         else
-            System.out.println("x " + operation + " y = " + result);
+            System.out.println("x " + operation + " y = " + String.format("%.2f", result));
     }
 
     public static float calculate(float x, float y) {
@@ -94,7 +94,7 @@ public class Main {
             case '*':
                 return x * y;
             default:
-                System.out.println("Wrong operation!");
+                System.err.println("Wrong operation!");
                 break;
         }
 
@@ -110,7 +110,7 @@ public class Main {
             } catch (NumberFormatException e) {
                 System.err.println("Number format is wrong!");
             }
-        }   
+        }
         else {
             try {
                 Integer.parseInt(operand);
