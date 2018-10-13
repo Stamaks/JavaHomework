@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 public class Main {
 
@@ -23,6 +26,9 @@ public class Main {
             proccess(currentTokens);
         }
 
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        System.out.print(sdf.format(cal.getTime()) );
     }
 
     private static void proccess(String[] tokens) {
@@ -51,12 +57,14 @@ public class Main {
                 if (!(xType = getType(tokens[1].trim())).isEmpty())
                     x = tokens[1].trim();
             }
+            else if (tokens[0].trim().equals("y")) {
 
-            if (tokens[0].trim().equals("y")) {
-
-                //Проверка на то, что введенная строка после знака = это число
-                if (!(yType = getType(tokens[1].trim())).isEmpty())
-                    y = tokens[1].trim();
+                    //Проверка на то, что введенная строка после знака = это число
+                    if (!(yType = getType(tokens[1].trim())).isEmpty())
+                        y = tokens[1].trim();
+                }
+                else {
+                    System.err.println("Enter x or y!");
             }
         }
 
@@ -66,18 +74,24 @@ public class Main {
         }
 
         if (!x.isEmpty() && !y.isEmpty() && operation != ' ')
-            perform();
+            if (operation == '/' && Float.parseFloat(y) == 0)
+                System.err.println("Zero division!");
+            else
+                perform();
     }
 
     public static void perform() {
 
         float result;
-        String xType = getType(x), yType = getType(y);
 
         result = calculate(Float.parseFloat(x), Float.parseFloat(y));
 
-        if (xType.equals("int") && yType.equals("int"))
-            System.out.println("x " + operation + " y = " + (int) result); //Округлится вниз, как и нужно.
+        if (getType(x).equals("int") && getType(y).equals("int")) {
+            if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE)
+                System.err.println("Too big number!");
+            else
+                System.out.println("x " + operation + " y = " + (int) result); //Округлится вниз, как и нужно.
+        }
         else
             System.out.println("x " + operation + " y = " + String.format("%.2f", result));
     }
