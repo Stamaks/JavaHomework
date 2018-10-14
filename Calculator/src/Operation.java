@@ -1,64 +1,38 @@
-public class Operation {
+class Operation {
     NumberWithType x;
     NumberWithType y;
     char operation;
 
-    public Operation() {
+    Operation() {
         x = new NumberWithType(0, "unknown");
         y = new NumberWithType(0, "unknown");
         operation = ' ';
     }
 
-    public void processTokens(String[] tokens) {
+    void processTokens(String[] tokens) {
 
-        // Если токен всего один, вероятно, это операция
-        if (tokens.length == 1) {
+        switch (tokens.length) {
 
-            if (tokens[0].trim().length() == 1) {
+            // Если токен всего один, вероятно, это операция. Если находим - запоминмаем.
+            case 1:
+                tryToGetOperation(tokens);
+                break;
 
-                if (!"+-*/".contains(tokens[0].trim().charAt(0) + "")) {
-                    System.err.println("This operation is not implemented!");
-                }
-                else
-                    operation = tokens[0].trim().charAt(0);
-            }
-            else {
+            // Если токена два, возможно, это число х или у. Если находим - запоминмаем.
+            case 2:
+                tryToGetxOry(tokens);
+                break;
+
+            default:
                 System.err.println("Something's wrong!");
-            }
-        }
-
-        if (tokens.length == 2) {
-
-            // Пытаемся получить число
-            NumberWithType number = transformToken(tokens[1].trim());
-
-            // Если число удалось получить, запоминаем его
-            if (!number.variableType.equals("unknown")) {
-
-                switch (tokens[0].trim()) {
-                    case "x":
-                        x = number;
-                        break;
-                    case "y":
-                        y = number;
-                        break;
-                    default:
-                        System.err.println("Enter x or y!");
-                        break;
-                }
-            }
-        }
-
-        if (tokens.length > 2) {
-            System.err.println("Something's wrong!");
         }
     }
 
-    public boolean readyToGetResult() {
+    boolean readyToGetResult() {
         return (operation != ' ' && !x.variableType.equals("unknown") && !y.variableType.equals("unknown"));
     }
 
-    public NumberWithType getResult()
+    NumberWithType getResult()
     {
         if (readyToGetResult())
             return calculate();
@@ -83,6 +57,41 @@ public class Operation {
         }
 
         return new NumberWithType(0, "unknown");
+    }
+
+    // Пытаемся распознать операцию в токенах
+    private void tryToGetOperation(String[] tokens) {
+
+        if (tokens[0].trim().length() == 1) {
+
+            if (!"+-*/".contains(tokens[0].trim().charAt(0) + ""))
+                System.err.println("This operation is not implemented!");
+            else
+                operation = tokens[0].trim().charAt(0);
+        }
+        else
+            System.err.println("Something's wrong!");
+    }
+
+    // Пытаемся распознать число х или у в токенах
+    private void tryToGetxOry(String[] tokens) {
+        NumberWithType number = transformToken(tokens[1].trim());
+
+        // Если число удалось получить, запоминаем его
+        if (!number.variableType.equals("unknown")) {
+
+            switch (tokens[0].trim()) {
+                case "x":
+                    x = number;
+                    break;
+                case "y":
+                    y = number;
+                    break;
+                default:
+                    System.err.println("Enter x or y!");
+                    break;
+            }
+        }
     }
 
     private NumberWithType transformToken(String operand) {
