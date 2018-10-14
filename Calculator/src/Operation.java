@@ -16,12 +16,11 @@ public class Operation {
 
             if (tokens[0].trim().length() == 1) {
 
-                operation = tokens[0].trim().charAt(0);
-
-                if (!"+-*/".contains(operation + "")) {
+                if (!"+-*/".contains(tokens[0].trim().charAt(0) + "")) {
                     System.err.println("This operation is not implemented!");
-                    operation = ' ';
                 }
+                else
+                    operation = tokens[0].trim().charAt(0);
             }
             else {
                 System.err.println("Something's wrong!");
@@ -30,16 +29,23 @@ public class Operation {
 
         if (tokens.length == 2) {
 
-            switch (tokens[0].trim()) {
-                case "x":
-                    x = transformToken(tokens[1].trim());
-                    break;
-                case "y":
-                    y = transformToken(tokens[1].trim());
-                    break;
-                default:
-                    System.err.println("Enter x or y!");
-                    break;
+            // Пытаемся получить число
+            NumberWithType number = transformToken(tokens[1].trim());
+
+            // Если число удалось получить, запоминаем его
+            if (!number.variableType.equals("unknown")) {
+
+                switch (tokens[0].trim()) {
+                    case "x":
+                        x = number;
+                        break;
+                    case "y":
+                        y = number;
+                        break;
+                    default:
+                        System.err.println("Enter x or y!");
+                        break;
+                }
             }
         }
 
@@ -54,7 +60,10 @@ public class Operation {
 
     public NumberWithType getResult()
     {
-        return calculate();
+        if (readyToGetResult())
+            return calculate();
+        else
+            return new NumberWithType(0, "unknown");
     }
 
     private NumberWithType calculate() {

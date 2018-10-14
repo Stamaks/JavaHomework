@@ -6,12 +6,6 @@ import java.util.Calendar;
 
 public class Main {
 
-    private static String x = "";
-    private static String y = "";
-    private static String xType;
-    private static String yType;
-    private static char operation = ' ';
-
     public static void main(String[] args) throws IOException {
 
         System.out.println("Hello! I am your simple calculator. Try smth like this:\nx = 2\ny = 3\n+");
