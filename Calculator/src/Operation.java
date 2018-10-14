@@ -2,11 +2,13 @@ class Operation {
     NumberWithType x;
     NumberWithType y;
     char operation;
+    boolean shouldShowResult;
 
     Operation() {
         x = new NumberWithType(0, "unknown");
         y = new NumberWithType(0, "unknown");
         operation = ' ';
+        shouldShowResult = true;
     }
 
     void processTokens(String[] tokens) {
@@ -25,11 +27,13 @@ class Operation {
 
             default:
                 System.err.println("Something's wrong!");
+                break;
         }
     }
 
     boolean readyToGetResult() {
-        return (operation != ' ' && !x.variableType.equals("unknown") && !y.variableType.equals("unknown"));
+        return (operation != ' ' && !x.variableType.equals("unknown") &&
+                !y.variableType.equals("unknown") && shouldShowResult);
     }
 
     NumberWithType getResult()
@@ -56,6 +60,7 @@ class Operation {
                 break;
         }
 
+        shouldShowResult = false;
         return new NumberWithType(0, "unknown");
     }
 
@@ -64,13 +69,19 @@ class Operation {
 
         if (tokens[0].trim().length() == 1) {
 
-            if (!"+-*/".contains(tokens[0].trim().charAt(0) + ""))
+            if (!"+-*/".contains(tokens[0].trim().charAt(0) + "")) {
                 System.err.println("This operation is not implemented!");
-            else
+                shouldShowResult = false;
+            }
+            else {
                 operation = tokens[0].trim().charAt(0);
+                shouldShowResult = true;
+            }
         }
-        else
+        else {
             System.err.println("Something's wrong!");
+            shouldShowResult = false;
+        }
     }
 
     // Пытаемся распознать число х или у в токенах
@@ -89,6 +100,7 @@ class Operation {
                     break;
                 default:
                     System.err.println("Enter x or y!");
+                    shouldShowResult = false;
                     break;
             }
         }
@@ -99,6 +111,7 @@ class Operation {
         // Если строка содержит строчку, вероятнее всего, это float
         if (operand.contains(".")) {
             try {
+                shouldShowResult = true;
                 return new NumberWithType(Float.parseFloat(operand), "float");
             } catch (NumberFormatException e) {
                 System.err.println("Number format is wrong!");
@@ -106,11 +119,14 @@ class Operation {
         }
         else {
             try {
+                shouldShowResult = true;
                 return new NumberWithType(Integer.parseInt(operand), "int");
             } catch (NumberFormatException e) {
                 System.err.println("Number format is wrong!");
             }
         }
+
+        shouldShowResult = false;
 
         return new NumberWithType(0, "unknown");
     }

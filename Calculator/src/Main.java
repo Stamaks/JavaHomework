@@ -33,7 +33,6 @@ public class Main {
                                 (int) currentResult.variable);
                         break;
                     default:
-                        System.err.println("Smth went wrong!");
                         break;
                 }
             }
@@ -41,7 +40,7 @@ public class Main {
 
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        System.out.print(sdf.format(cal.getTime()) );
+        System.out.println(sdf.format(cal.getTime()) );
     }
 
 }
