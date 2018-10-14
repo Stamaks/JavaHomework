@@ -218,7 +218,7 @@ public class OperationTests {
         tokens = testString.split("=");
         op.processTokens(tokens);
 
-        Assert.assertTrue(op.readyToGetResult());
+        Assert.assertFalse(op.readyToGetResult());
 
 
         testString = "*";
@@ -281,8 +281,8 @@ public class OperationTests {
         tokens = testString.split("=");
         op.processTokens(tokens);
 
-        Assert.assertEquals(5, op.getResult().variable.intValue());
-        Assert.assertEquals("int", op.getResult().variableType);
+        Assert.assertEquals(0, op.getResult().variable.intValue());
+        Assert.assertEquals("unknown", op.getResult().variableType);
 
 
         testString = "x = 1.1";
