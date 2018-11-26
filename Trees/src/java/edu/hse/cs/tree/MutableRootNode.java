@@ -1,6 +1,7 @@
 package edu.hse.cs.tree;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class MutableRootNode<T>
@@ -17,8 +18,10 @@ public class MutableRootNode<T>
 
     public MutableRootNode(ImmutableRootNode<T> source) {
         // TODO implement constructor that creates MutableRootNode identical to ImmutableRootNode
-        super(null);   // tmp stub
-        this.children = null; // tmp stub
+        super(source.getObject());
+
+        // TODO: а можно ли так???
+        this.children = source.getChildren();
     }
 
     @Override
@@ -84,6 +87,9 @@ public class MutableRootNode<T>
     void addChild(AbstractTreeNode<T> node) {
         // TODO implement addChild in MutableRootNode
         throw new RuntimeException("not implemented yet!");
+
+        if (node instanceof MutableParentNode)
+            this.children.;
     }
 
     @Override

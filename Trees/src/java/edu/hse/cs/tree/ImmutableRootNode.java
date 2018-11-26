@@ -17,14 +17,15 @@ public class ImmutableRootNode<T>
 
     public ImmutableRootNode(T object, Set<? extends IChild<T>> children) {
         super(object);
-        throw new RuntimeException("not implemented yet!");
+        this.children = children;
     }
 
     public ImmutableRootNode(MutableRootNode<T> source) {
         // TODO implement constructor that creates ImmutableRootNode identical to MutableRootNode
-        super(null);    // tmp stub
-        this.children = null;  // tmp stub
-        throw new RuntimeException("not implemented yet!");
+        super(source.getObject());
+
+        //TODO: не уверена, можно ли так
+        this.children = source.getChildren();
     }
 
     /**

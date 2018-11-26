@@ -15,7 +15,7 @@ public class ImmutableParentNode<T>
     public ImmutableParentNode(T object, IParent<T> parent, Set<? extends IChild<T>> children) {
         super(object);
         this.parent = parent;
-        this.children = null; //tmp stub
+        this.children = children;
     }
 
     @Override

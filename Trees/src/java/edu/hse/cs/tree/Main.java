@@ -10,7 +10,16 @@ public class Main {
 //                "        MutableChildNode(Child10)\n" +
 //                "    MutableChildNode(Child0)");
 
-        System.out.println("-34,5".matches("-{0,1}[0-9]+[\\.,][0-9]+"));
+//        System.out.println("-34,5".matches("-{0,1}[0-9]+[\\.,][0-9]+"));
 
+        AbstractTreeNode node = TreeImporter.getChild("MutableRootNode(Root)\n" +
+                "    MutableParentNode(Parent0)\n" +
+                "        MutableChildNode(Child00)\n" +
+                "        MutableChildNode(Child01)\n" +
+                "    MutableParentNode(Parent1)\n" +
+                "        MutableChildNode(Child10)\n" +
+                "    MutableChildNode(Child0)", 4, 4, "");
+
+        System.out.println(node.toStringForm(""));
     }
 }

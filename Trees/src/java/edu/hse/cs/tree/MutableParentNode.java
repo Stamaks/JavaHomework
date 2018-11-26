@@ -1,6 +1,7 @@
 package edu.hse.cs.tree;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class MutableParentNode<T>
@@ -14,7 +15,9 @@ public class MutableParentNode<T>
 
     public MutableParentNode(T object) {
         super(object);
-        throw new RuntimeException("not implemented yet!");
+//        this.children = new HashSet<>();
+        //TODO: Parent constructor
+//        throw new RuntimeException("not implemented yet!");
     }
 
     // IChild implementation:

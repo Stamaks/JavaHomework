@@ -64,14 +64,15 @@ public class TreeImporter {
     }
 
     public static AbstractTreeNode getChild(String input, int currentIndentSize, final int indentSize, String objectType) {
-        String[] nodes = input.split("\\s{" + currentIndentSize + "}");
+        String regex = " {" + currentIndentSize + "}";
+        String[] nodes = input.split(regex);
 
         if (nodes.length == 0 || input.isEmpty()) {
             System.out.println("Input is empty!");
             return null;
         }
 
-        String parentNode = nodes[0];
+        String parentNode = nodes[0].trim();
 
         if (!parentNode.matches("Mutable(Root|Parent|Child)Node[(].*[)]")) {
             System.out.println("Input doesn't match a template!");
@@ -163,20 +164,41 @@ public class TreeImporter {
                 System.out.println("Type mismatch! Expected " + objectType);
             }
 
-            // Получаем и добавляем детей
-            for (int i = 1; i < nodes.length - 1; i++) {
-                AbstractTreeNode node = getChild(nodes[i], currentIndentSize + indentSize,
-                        indentSize, objectType);
-                parent.addChild(node);
-
-                if (node instanceof MutableParentNode)
-                    ((MutableParentNode) node).setParent(parent);
-                else
-                    ((MutableChildNode) node).setParent(parent);
+        } else {
+            // Если objectType пуст, значит, не было корня
+            if (objectType.isEmpty())
+            {
+                System.out.println("Input doesn't match a template! No root!");
+                return null;
             }
 
-            return parent;
+            MutableChildNode child = null;
 
+            // Создаем parent с объектом типа objectType
+            if (objectString.matches("-{0,1}[0-9]+") && objectType.equals("int")) {
+                try {
+                    int object = Integer.parseInt(objectString);
+                    child = new MutableChildNode(object);
+                } catch (NumberFormatException e) {
+                    System.out.println("Type mismatch! Too big number!");
+                    return null;
+                }
+
+            } else if (objectString.matches("-{0,1}[0-9]+[.,][0-9]+") && objectType.equals("double")) {
+                try {
+                    double object = Double.parseDouble(objectString);
+                    child = new MutableChildNode(object);
+                } catch (NumberFormatException e) {
+                    System.out.println("Type mismatch! Too big number!");
+                    return null;
+                }
+
+            } else if (objectType.equals("String")) {
+                child = new MutableChildNode(objectString);
+            }
+            else {
+                System.out.println("Type mismatch! Expected " + objectType);
+            }
         }
 
         // Получаем и добавляем детей
@@ -201,7 +223,7 @@ public class TreeImporter {
                 ((MutableChildNode) node).setParent((IParent) treeNode);
         }
 
-        return null;
+        return treeNode;
     }
 
 //    public static String[] getChildren(String input, String indent)
