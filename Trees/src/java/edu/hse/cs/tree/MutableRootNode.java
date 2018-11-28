@@ -17,22 +17,36 @@ public class MutableRootNode<T>
     }
 
     public MutableRootNode(ImmutableRootNode<T> source) {
-        // TODO implement constructor that creates MutableRootNode identical to ImmutableRootNode
         super(source.getObject());
 
-        // TODO: а можно ли так???
-        this.children = source.getChildren();
+        Set<IChild<T>> temp = new HashSet<>();
+
+        for (IChild<T> child : source.getChildren()) {
+            if (child instanceof ImmutableParentNode) {
+                MutableParentNode<T> node = new MutableParentNode<T>(((ImmutableParentNode<T>) child).getObject());
+                node.setParent(this);
+
+                temp.add(node);
+            }
+            if (child instanceof ImmutableChildNode) {
+                MutableChildNode<T> node = new MutableChildNode<T>(((ImmutableChildNode<T>) child).getObject());
+                node.setParent(this);
+
+                temp.add(node);
+            }
+        }
+
+        this.children = temp;
+
     }
 
     @Override
     public final Set<? extends IChild<T>> getChildren() {
-        // tmp stub TODO: implement me...
-        throw new RuntimeException("not implemented yet!");
+        return this.children;
     }
 
     public final void setChildren(Set<? extends IChild<T>> newValue) {
-        //TODO: implement me...
-        throw new RuntimeException("not implemented yet!");
+        this.children = newValue;
     }
 
     @Override
@@ -43,8 +57,14 @@ public class MutableRootNode<T>
 
     @Override
     public boolean contains(T childValue) {
-        // TODO implement contains in MutableRootNode
-        throw new RuntimeException("not implemented yet!");
+        for (IChild<T> child : this.children) {
+            if (child instanceof MutableChildNode && ((MutableChildNode<T>) child).getObject() == childValue)
+                return true;
+            if (child instanceof MutableParentNode && ((MutableParentNode<T>) child).getObject() == childValue)
+                return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -87,9 +107,6 @@ public class MutableRootNode<T>
     void addChild(AbstractTreeNode<T> node) {
         // TODO implement addChild in MutableRootNode
         throw new RuntimeException("not implemented yet!");
-
-        if (node instanceof MutableParentNode)
-            this.children.;
     }
 
     @Override

@@ -33,11 +33,11 @@ public class MutableParentNode<T>
     // IParent implementation:
     @Override
     public Set<? extends IChild<T>> getChildren() {
-        throw new RuntimeException("not implemented yet!");
+        return this.children;
     }
 
     public void setChildren(Set<? extends IChild<T>> newValue) {
-        throw new RuntimeException("not implemented yet!");
+        this.children = newValue;
     }
 
     @Override

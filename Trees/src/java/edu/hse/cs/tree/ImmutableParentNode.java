@@ -25,7 +25,7 @@ public class ImmutableParentNode<T>
 
     @Override
     public Set<? extends IChild<T>> getChildren() {
-        throw new RuntimeException("not implemented yet!");
+        return this.children;
     }
 
     @Override
