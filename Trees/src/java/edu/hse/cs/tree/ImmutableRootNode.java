@@ -1,6 +1,7 @@
 package edu.hse.cs.tree;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,11 +22,25 @@ public class ImmutableRootNode<T>
     }
 
     public ImmutableRootNode(MutableRootNode<T> source) {
-        // TODO implement constructor that creates ImmutableRootNode identical to MutableRootNode
         super(source.getObject());
 
-        //TODO: не уверена, можно ли так
-        this.children = source.getChildren();
+        Set<IChild<T>> temp = new HashSet<>();
+
+        for (IChild<T> child : source.getChildren()) {
+            if (child instanceof MutableParentNode) {
+                ImmutableParentNode<T> node = new ImmutableParentNode<T>(((MutableParentNode<T>) child).getObject(),
+                                                    this, source.getChildren());
+
+                temp.add(node);
+            }
+            if (child instanceof MutableChildNode) {
+                ImmutableChildNode<T> node = new ImmutableChildNode<T>(((MutableChildNode<T>) child).getObject(),this);
+
+                temp.add(node);
+            }
+        }
+
+        this.children = temp;
     }
 
     /**
@@ -46,8 +61,14 @@ public class ImmutableRootNode<T>
 
     @Override
     public boolean contains(T childValue) {
-        // TODO implement contains in ImmutableRootNode
-        throw new RuntimeException("not implemented yet!");
+        for (IChild<T> child : this.children) {
+            if (child instanceof ImmutableChildNode && ((ImmutableChildNode<T>) child).getObject() == childValue)
+                return true;
+            if (child instanceof ImmutableParentNode && ((ImmutableParentNode<T>) child).getObject() == childValue)
+                return true;
+        }
+
+        return false;
     }
 
     @Override

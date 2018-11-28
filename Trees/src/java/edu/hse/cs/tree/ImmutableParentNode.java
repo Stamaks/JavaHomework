@@ -1,6 +1,7 @@
 package edu.hse.cs.tree;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ImmutableParentNode<T>
@@ -15,7 +16,38 @@ public class ImmutableParentNode<T>
     public ImmutableParentNode(T object, IParent<T> parent, Set<? extends IChild<T>> children) {
         super(object);
         this.parent = parent;
-        this.children = children;
+
+        Set<IChild<T>> temp = new HashSet<>();
+
+        for (IChild<T> child : children) {
+            if (child instanceof ImmutableParentNode) {
+                ImmutableParentNode<T> node = new ImmutableParentNode<T>(((ImmutableParentNode<T>) child).getObject(),
+                        this, ((ImmutableParentNode<T>) child).getChildren());
+
+                temp.add(node);
+            }
+
+            if (child instanceof ImmutableChildNode) {
+                ImmutableChildNode<T> node = new ImmutableChildNode<T>(((ImmutableChildNode<T>) child).getObject(), this);
+
+                temp.add(node);
+            }
+
+            if (child instanceof MutableParentNode) {
+                ImmutableParentNode<T> node = new ImmutableParentNode<T>(((MutableParentNode<T>) child).getObject(),
+                        this, ((MutableParentNode<T>) child).getChildren());
+
+                temp.add(node);
+            }
+
+            if (child instanceof MutableChildNode) {
+                ImmutableChildNode<T> node = new ImmutableChildNode<T>(((MutableChildNode<T>) child).getObject(), this);
+
+                temp.add(node);
+            }
+        }
+
+        this.children = temp;
     }
 
     @Override
@@ -36,8 +68,14 @@ public class ImmutableParentNode<T>
 
     @Override
     public boolean contains(T childValue) {
-        // TODO implement contains in ImmutableParentNode
-        throw new RuntimeException("not implemented yet!");
+        for (IChild<T> child : this.children) {
+            if (child instanceof ImmutableChildNode && ((ImmutableChildNode<T>) child).getObject() == childValue)
+                return true;
+            if (child instanceof ImmutableParentNode && ((ImmutableParentNode<T>) child).getObject() == childValue)
+                return true;
+        }
+
+        return false;
     }
 
     @Override

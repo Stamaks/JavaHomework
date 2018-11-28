@@ -15,9 +15,9 @@ public class MutableParentNode<T>
 
     public MutableParentNode(T object) {
         super(object);
-//        this.children = new HashSet<>();
-        //TODO: Parent constructor
-//        throw new RuntimeException("not implemented yet!");
+
+        this.children = new HashSet<>();
+        this.parent = null;
     }
 
     // IChild implementation:
@@ -48,8 +48,14 @@ public class MutableParentNode<T>
 
     @Override
     public boolean contains(T childValue) {
-        // TODO implement contains in MutableParentNode
-        throw new RuntimeException("not implemented yet!");
+        for (IChild<T> child : this.children) {
+            if (child instanceof MutableChildNode && ((MutableChildNode<T>) child).getObject() == childValue)
+                return true;
+            if (child instanceof MutableParentNode && ((MutableParentNode<T>) child).getObject() == childValue)
+                return true;
+        }
+
+        return false;
     }
 
     @Override
