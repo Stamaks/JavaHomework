@@ -99,6 +99,8 @@ public class MutableParentNode<T>
     AbstractTreeNode<T> removeChildByValue(T childValue) {
         // TODO implement removeChildByValue in MutableParentNode
         throw new RuntimeException("not implemented yet!");
+
+
     }
 
     /**
@@ -122,10 +124,33 @@ public class MutableParentNode<T>
      * @param node node to be added
      */
     void addChild(AbstractTreeNode<T> node) {
-        // TODO implement addChild in MutableParentNode
-        throw new RuntimeException("not implemented yet!");
 
-//        if (node instanceof MutableChildNode)
+        // Так нельзя, кидаем исключение
+        if (node instanceof ImmutableRootNode || node instanceof ImmutableParentNode
+                                                                || node instanceof ImmutableChildNode)
+            throw new IllegalArgumentException("Node is Immutable!");
+
+        if (node instanceof MutableRootNode) {
+            MutableParentNode parent = new MutableParentNode(node.getObject());
+
+            parent.setChildren(((MutableRootNode) node).getChildren());
+
+            Set<IChild<T>> temp = new HashSet<>(this.children);
+            temp.add(parent);
+
+            this.children = temp;
+        }
+
+        Set<IChild<T>> temp = new HashSet<>(this.children);
+
+        if (node instanceof MutableParentNode)
+            temp.add((MutableParentNode) node);
+        if (node instanceof MutableChildNode)
+            temp.add((MutableChildNode) node);
+
+        this.children = temp;
+
+
     }
 
     @Override
@@ -137,6 +162,6 @@ public class MutableParentNode<T>
                 allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent + INDENT);
             }
 
-        return indent + MutableRootNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
+        return indent + MutableParentNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
     }
 }

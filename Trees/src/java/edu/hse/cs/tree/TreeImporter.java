@@ -22,19 +22,29 @@ public class TreeImporter {
     }
 
     public static AbstractTreeNode getChild(String input, int currentIndentSize, final int indentSize, String objectType) {
-        String regex = " {" + currentIndentSize + "}";
+        String regex = "[)][\n] {" + currentIndentSize + "}[M]";
         String[] nodes = input.split(regex);
+
+        for (int i = 0; i < nodes.length; i++) {
+            if (i != nodes.length - 1)
+                nodes[i] += ")";
+            if (i != 0){
+                nodes[i] = "M" + nodes[i];
+            }
+        }
 
         if (nodes.length == 0 || input.isEmpty()) {
             System.out.println("Input is empty!");
-            return null;
+//            return null;
+            throw new IllegalArgumentException("Input is empty!");
         }
 
         String parentNode = nodes[0].trim();
 
         if (!parentNode.matches("Mutable(Root|Parent|Child)Node[(].*[)]")) {
             System.out.println("Input doesn't match a template!");
-            return null;
+//            return null;
+            throw new IllegalArgumentException("Input doesn't match a template!");
         }
 
         int indexOfLeftPareth = parentNode.indexOf("(");
@@ -52,7 +62,8 @@ public class TreeImporter {
             if (!objectType.isEmpty())
             {
                 System.out.println("Input doesn't match a template! Several roots!");
-                return null;
+//                return null;
+                throw new IllegalArgumentException("Input doesn't match a template! Several roots!");
             }
 
             // Выясняем, какой тип у объекта корня и создаем корень
@@ -64,7 +75,8 @@ public class TreeImporter {
                     treeNode = new MutableRootNode(object);
                 } catch (NumberFormatException e) {
                     System.out.println("Type mismatch! Too big number!");
-                    return null;
+//                    return null;
+                    throw new IllegalArgumentException("Type mismatch! Big number!");
                 }
 
             } else if (objectString.matches("-{0,1}[0-9]+[.,][0-9]+")) {
@@ -75,7 +87,8 @@ public class TreeImporter {
                     treeNode = new MutableRootNode(object);
                 } catch (NumberFormatException e) {
                     System.out.println("Type mismatch! Too big number!");
-                    return null;
+//                    return null;
+                    throw new IllegalArgumentException("Type mismatch! Big number!");
                 }
 
             } else {
@@ -90,33 +103,33 @@ public class TreeImporter {
             if (objectType.isEmpty())
             {
                 System.out.println("Input doesn't match a template! No root!");
-                return null;
+//                return null;
+                throw new IllegalArgumentException("Input doesn't match a template! No root!");
             }
-
-            // Создаем ссылку на родителя
-            MutableParentNode parent = null;
 
             // Создаем parent с объектом типа objectType
             if (objectString.matches("-{0,1}[0-9]+") && objectType.equals("int")) {
                 try {
                     int object = Integer.parseInt(objectString);
-                    parent = new MutableParentNode(object);
+                    treeNode = new MutableParentNode(object);
                 } catch (NumberFormatException e) {
                     System.out.println("Type mismatch! Too big number!");
-                    return null;
+//                    return null;
+                    throw new IllegalArgumentException("Type mismatch! Too big number!");
                 }
 
             } else if (objectString.matches("-{0,1}[0-9]+[.,][0-9]+") && objectType.equals("double")) {
                 try {
                     double object = Double.parseDouble(objectString);
-                    parent = new MutableParentNode(object);
+                    treeNode = new MutableParentNode(object);
                 } catch (NumberFormatException e) {
                     System.out.println("Type mismatch! Too big number!");
-                    return null;
+//                    return null;
+                    throw new IllegalArgumentException("Type mismatch! Too big number!");
                 }
 
             } else if (objectType.equals("String")) {
-                parent = new MutableParentNode(objectString);
+                treeNode = new MutableParentNode(objectString);
             }
             else {
                 System.out.println("Type mismatch! Expected " + objectType);
@@ -127,32 +140,33 @@ public class TreeImporter {
             if (objectType.isEmpty())
             {
                 System.out.println("Input doesn't match a template! No root!");
-                return null;
+//                return null;
+                throw new IllegalArgumentException("Input doesn't match a template! No root!");
             }
-
-            MutableChildNode child = null;
 
             // Создаем parent с объектом типа objectType
             if (objectString.matches("-{0,1}[0-9]+") && objectType.equals("int")) {
                 try {
                     int object = Integer.parseInt(objectString);
-                    child = new MutableChildNode(object);
+                    treeNode = new MutableChildNode(object);
                 } catch (NumberFormatException e) {
                     System.out.println("Type mismatch! Too big number!");
-                    return null;
+//                    return null;
+                    throw new IllegalArgumentException("Type mismatch!");
                 }
 
             } else if (objectString.matches("-{0,1}[0-9]+[.,][0-9]+") && objectType.equals("double")) {
                 try {
                     double object = Double.parseDouble(objectString);
-                    child = new MutableChildNode(object);
+                    treeNode = new MutableChildNode(object);
                 } catch (NumberFormatException e) {
                     System.out.println("Type mismatch! Too big number!");
-                    return null;
+//                    return null;
+                    throw new IllegalArgumentException("Type mismatch!");
                 }
 
             } else if (objectType.equals("String")) {
-                child = new MutableChildNode(objectString);
+                treeNode = new MutableChildNode(objectString);
             }
             else {
                 System.out.println("Type mismatch! Expected " + objectType);
@@ -160,7 +174,8 @@ public class TreeImporter {
         }
 
         // Получаем и добавляем детей
-        for (int i = 1; i < nodes.length - 1; i++) {
+        for (int i = 1; i < nodes.length; i++) {
+            System.out.println(i + " " + nodes[i]);
             AbstractTreeNode node = getChild(nodes[i], currentIndentSize + indentSize,
                     indentSize, objectType);
 
@@ -171,10 +186,10 @@ public class TreeImporter {
                 ((MutableParentNode) treeNode).addChild(node);
             if (treeNode == null) {
                 System.out.println("TreeNode is null!!!");
-                return null;
+//                return null;
+                throw new IllegalArgumentException("TreeNode id null!");
             }
 
-            // TODO: мб не заработает!
             if (node instanceof MutableParentNode)
                 ((MutableParentNode) node).setParent((IParent) treeNode);
             else

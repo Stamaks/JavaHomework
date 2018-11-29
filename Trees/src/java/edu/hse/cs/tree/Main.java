@@ -20,6 +20,6 @@ public class Main {
                 "        MutableChildNode(Child10)\n" +
                 "    MutableChildNode(Child0)", 4, 4, "");
 
-        System.out.println(node.toStringForm(""));
+        System.out.println("\n\n\n\n" + node.toStringForm(""));
     }
 }

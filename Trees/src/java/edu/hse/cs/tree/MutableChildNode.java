@@ -23,6 +23,6 @@ public class MutableChildNode<T>
 
     @Override
     public String toStringForm(String indent) {
-        return indent + ImmutableChildNode.class.getSimpleName() + "(" + getObject().toString() + ")";
+        return indent + MutableChildNode.class.getSimpleName() + "(" + getObject().toString() + ")";
     }
 }

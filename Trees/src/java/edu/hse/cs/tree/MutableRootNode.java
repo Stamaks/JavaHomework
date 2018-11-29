@@ -14,6 +14,7 @@ public class MutableRootNode<T>
 
     public MutableRootNode(T object) {
         super(object);
+        this.children = new HashSet<>();
     }
 
     public MutableRootNode(ImmutableRootNode<T> source) {
@@ -131,8 +132,30 @@ public class MutableRootNode<T>
      * @param node node to be added
      */
     void addChild(AbstractTreeNode<T> node) {
-        // TODO implement addChild in MutableRootNode
-        throw new RuntimeException("not implemented yet!");
+        // Так нельзя, кидаем исключение
+        if (node instanceof ImmutableRootNode || node instanceof ImmutableParentNode
+                || node instanceof ImmutableChildNode)
+            throw new IllegalArgumentException("Node is Immutable!");
+
+        if (node instanceof MutableRootNode) {
+            MutableParentNode parent = new MutableParentNode(node.getObject());
+
+            parent.setChildren(((MutableRootNode) node).getChildren());
+
+            Set<IChild<T>> temp = new HashSet<>(this.children);
+            temp.add(parent);
+
+            this.children = temp;
+        }
+
+        Set<IChild<T>> temp = new HashSet<>(this.children);
+
+        if (node instanceof MutableParentNode)
+            temp.add((MutableParentNode) node);
+        if (node instanceof MutableChildNode)
+            temp.add((MutableChildNode) node);
+
+        this.children = temp;
     }
 
     @Override
