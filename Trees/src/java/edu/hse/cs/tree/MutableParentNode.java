@@ -1,8 +1,6 @@
 package edu.hse.cs.tree;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class MutableParentNode<T>
         extends
@@ -97,10 +95,17 @@ public class MutableParentNode<T>
      * @return - the child removed, or null if the child with the given value was not found.
      */
     AbstractTreeNode<T> removeChildByValue(T childValue) {
-        // TODO implement removeChildByValue in MutableParentNode
-        throw new RuntimeException("not implemented yet!");
+        AbstractTreeNode node = null;
+        for (IChild child : children) {
+            if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject() == childValue
+                    || child instanceof MutableChildNode && ((MutableChildNode) child).getObject() == childValue) {
+                node = (AbstractTreeNode) child;
+                children.remove(child);
+                break;
+            }
+        }
 
-
+        return node;
     }
 
     /**
@@ -110,8 +115,38 @@ public class MutableParentNode<T>
      * @return true if at least one descendant was removed, false - otherwise.
      */
     boolean removeDescendantsByValue(T childValue) {
-        // TODO implement removeDescendantsByValue in MutableParentNode
-        throw new RuntimeException("not implemented yet!");
+        LinkedList<IChild> queue = new LinkedList<>();
+
+        for (IChild child : children) {
+            if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject() == childValue
+                    || child instanceof MutableChildNode && ((MutableChildNode) child).getObject() == childValue) {
+                children.remove(child);
+                return true;
+            }
+
+            if (child instanceof MutableParentNode)
+                queue.addLast((MutableParentNode) child);
+        }
+
+        IChild currentNode;
+
+        while (!queue.isEmpty()) {
+            currentNode = queue.removeFirst();
+
+            for (Object child : ((MutableParentNode) currentNode).getChildren()) {
+                if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject() == childValue
+                        || child instanceof MutableChildNode && ((MutableChildNode) child).getObject() == childValue) {
+                    ((MutableParentNode) currentNode).removeChildByValue(childValue);
+                    return true;
+                }
+
+                if (child instanceof MutableParentNode)
+                    queue.addLast((MutableParentNode) child);
+            }
+
+        }
+
+        return false;
     }
 
     /**
