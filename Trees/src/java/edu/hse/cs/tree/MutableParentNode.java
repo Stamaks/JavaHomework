@@ -74,8 +74,20 @@ public class MutableParentNode<T>
 
     @Override
     public boolean containsDescendants(T childValue) {
-        // TODO implement containsDescendants in MutableParentNode
-        throw new RuntimeException("not implemented yet!");
+        for (IChild child : this.children)
+        {
+            if (child instanceof MutableParentNode) {
+                if (((MutableParentNode) child).contains(childValue))
+                    return true;
+            }
+            if (child instanceof MutableChildNode)
+            {
+                if (((MutableChildNode) child).getObject() == childValue)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -125,6 +137,6 @@ public class MutableParentNode<T>
                 allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent + INDENT);
             }
 
-        return indent + ImmutableRootNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
+        return indent + MutableRootNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
     }
 }

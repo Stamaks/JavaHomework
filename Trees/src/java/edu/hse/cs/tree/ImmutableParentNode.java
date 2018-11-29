@@ -94,8 +94,20 @@ public class ImmutableParentNode<T>
 
     @Override
     public boolean containsDescendants(T childValue) {
-        // TODO implement containsDescendants in ImmutableParentNode
-        throw new RuntimeException("not implemented yet!");
+        for (IChild child : this.children)
+        {
+            if (child instanceof ImmutableParentNode) {
+                if (((ImmutableParentNode) child).contains(childValue))
+                    return true;
+            }
+            if (child instanceof ImmutableChildNode)
+            {
+                if (((ImmutableChildNode) child).getObject() == childValue)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

@@ -83,8 +83,20 @@ public class MutableRootNode<T>
 
     @Override
     public boolean containsDescendants(T childValue) {
-        // TODO implement containsDescendants in MutableRootNode
-        throw new RuntimeException("not implemented yet!");
+        for (IChild child : this.children)
+        {
+            if (child instanceof MutableParentNode) {
+                if (((MutableParentNode) child).contains(childValue))
+                    return true;
+            }
+            if (child instanceof MutableChildNode)
+            {
+                if (((MutableChildNode) child).getObject() == childValue)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -132,6 +144,6 @@ public class MutableRootNode<T>
                 allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent);
             }
 
-        return ImmutableRootNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
+        return MutableRootNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
     }
 }
