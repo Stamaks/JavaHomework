@@ -42,8 +42,22 @@ public class MutableParentNode<T>
 
     @Override
     public Collection<? extends IChild<T>> getAllDescendants() {
-        // TODO implement getAllDescendants in MutableParentNode
-        throw new RuntimeException("not implemented yet!");
+        Set<IChild<T>> descendants = new HashSet<>(this.children);
+
+        for (IChild child : descendants)
+        {
+            if (child instanceof MutableParentNode) {
+                descendants.addAll(((MutableParentNode) child).getAllDescendants());
+            }
+            if (child instanceof MutableChildNode)
+            {
+                Set<IChild<T>> temp = new HashSet<>();
+                temp.add(child);
+                descendants.addAll(temp);
+            }
+        }
+
+        return descendants;
     }
 
     @Override
@@ -98,6 +112,8 @@ public class MutableParentNode<T>
     void addChild(AbstractTreeNode<T> node) {
         // TODO implement addChild in MutableParentNode
         throw new RuntimeException("not implemented yet!");
+
+//        if (node instanceof MutableChildNode)
     }
 
     @Override

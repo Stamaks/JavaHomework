@@ -13,49 +13,7 @@ public class TreeImporter {
             System.out.println("Input is empty!");
         }
         else {
-            StringTokenizer st = new StringTokenizer(input);
-
-            String currentToken, className, objectString;
-            long numberOfIterations = 0;
-            while (st.hasMoreTokens()) {
-                ++numberOfIterations;
-
-                currentToken = st.nextToken();
-
-                // Проверяем валидность текущего токена
-                if (!currentToken.matches("Mutable(Root|Parent|Child)Node[(].*[)]"))
-                    System.out.println("Input is wrong!");
-
-                //TODO: проверять валидность входа, если надо
-                // Проверка на то, что первая строка - рут, ...
-
-                // Находим первую левую скобку и по ней делим (может быть строка, например, "бебе(бе)бебе))")
-                int indexOfLeftPareth = currentToken.indexOf("(");
-
-                className = currentToken.substring(0, indexOfLeftPareth);
-
-                objectString = currentToken.substring(indexOfLeftPareth + 1, currentToken.length()-1);
-
-
-//                if (!currentTokensSplit[0].matches("Mutable(Root|Parent|Child)Node") || currentTokensSplit.length < 2)
-//                {
-//                    System.out.println("Input is wrong!");
-//                    break;
-//                }
-//                else
-//                {
-//                    if (numberOfIterations == 1 && !currentTokensSplit[0].equals("MutableRootNode"))
-//                    {
-//                        System.out.println("Input is wrong!");
-//                        break;
-//                    }
-//                    else
-//                    {
-//                        if
-//                    }
-//                }
-//
-            }
+            getChild(input, 0, 0, "");
         }
 
 
@@ -225,35 +183,4 @@ public class TreeImporter {
 
         return treeNode;
     }
-
-//    public static String[] getChildren(String input, String indent)
-//    {
-//        input.split(indent);
-//
-//
-//        if (input.isEmpty()) {
-//            return null;
-//        }
-//        else {
-//
-//            // Отрезаем первую строку, расспличиваем по детям. Для каждого ребенка - отрезаем первую строку, расспличиваем...
-//            // Каждую отрезанную строку проверяем на простую валидность любому ок паттерну
-//            // Получили листья, засунули в массив. Преобразуем лист, проверяя, children ли он.
-//            // Засунули чилдрена
-//
-//            // Как проверять, что у нодов один и тот же тип? Глабальная приватная статик переменная
-//
-//            String currentToken, className, objectString;
-//            long numberOfIterations = 0;
-//            while (st.hasMoreTokens()) {
-//                ++numberOfIterations;
-//
-//                currentToken = st.nextToken();
-//
-//                // Проверяем валидность текущего токена
-//                if (!currentToken.matches("Mutable(Root|Parent|Child)Node[(].*[)]"))
-//                    System.out.println("Input is wrong!");
-//            }
-//        }
-//    }
 }

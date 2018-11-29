@@ -86,8 +86,22 @@ public class ImmutableRootNode<T>
 
     @Override
     public Collection<? extends IChild<T>> getAllDescendants() {
-        // TODO implement getAllDescendants in ImmutableRootNode
-        throw new RuntimeException("not implemented yet!");
+        Set<IChild<T>> descendants = new HashSet<>(this.children);
+
+        for (IChild child : descendants)
+        {
+            if (child instanceof ImmutableParentNode) {
+                descendants.addAll(((ImmutableParentNode) child).getAllDescendants());
+            }
+            if (child instanceof ImmutableChildNode)
+            {
+                Set<IChild<T>> temp = new HashSet<>();
+                temp.add(child);
+                descendants.addAll(temp);
+            }
+        }
+
+        return descendants;
     }
 
     @Override
