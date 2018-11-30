@@ -13,10 +13,11 @@ public class TreeTest {
     public void testGetChildren(){
         MutableRootNode<String> root = populateTree();
         Assertions.assertEquals(root.getChildren().size(), 3);
+        System.out.println(root.toStringForm(""));
     }
 
 
-    private static MutableRootNode<String> populateTree(){
+    public static MutableRootNode<String> populateTree(){
         MutableRootNode<String> root = new MutableRootNode<>("Root");
 
         MutableParentNode<String> parent0 = new MutableParentNode<>("Parent0");
@@ -39,7 +40,7 @@ public class TreeTest {
         Set<IChild<String>> parent0Children = new HashSet<>(2);
         parent0Children.add(child00);
         parent0Children.add(child01);
-        parent1.setChildren(parent0Children);
+        parent0.setChildren(parent0Children);
         child00.setParent(parent0);
         child01.setParent(parent0);
 

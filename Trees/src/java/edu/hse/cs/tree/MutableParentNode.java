@@ -61,9 +61,9 @@ public class MutableParentNode<T>
     @Override
     public boolean contains(T childValue) {
         for (IChild<T> child : this.children) {
-            if (child instanceof MutableChildNode && ((MutableChildNode<T>) child).getObject() == childValue)
+            if (child instanceof MutableChildNode && ((MutableChildNode<T>) child).getObject().equals(childValue))
                 return true;
-            if (child instanceof MutableParentNode && ((MutableParentNode<T>) child).getObject() == childValue)
+            if (child instanceof MutableParentNode && ((MutableParentNode<T>) child).getObject().equals(childValue))
                 return true;
         }
 
@@ -75,12 +75,13 @@ public class MutableParentNode<T>
         for (IChild child : this.children)
         {
             if (child instanceof MutableParentNode) {
-                if (((MutableParentNode) child).contains(childValue))
+                if (((MutableParentNode) child).getObject().equals(childValue)
+                        || ((MutableParentNode) child).containsDescendants(childValue))
                     return true;
             }
             if (child instanceof MutableChildNode)
             {
-                if (((MutableChildNode) child).getObject() == childValue)
+                if (((MutableChildNode) child).getObject().equals(childValue))
                     return true;
             }
         }
@@ -97,8 +98,8 @@ public class MutableParentNode<T>
     AbstractTreeNode<T> removeChildByValue(T childValue) {
         AbstractTreeNode node = null;
         for (IChild child : children) {
-            if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject() == childValue
-                    || child instanceof MutableChildNode && ((MutableChildNode) child).getObject() == childValue) {
+            if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject().equals(childValue)
+                    || child instanceof MutableChildNode && ((MutableChildNode) child).getObject().equals(childValue)) {
                 node = (AbstractTreeNode) child;
                 children.remove(child);
                 break;
@@ -118,14 +119,14 @@ public class MutableParentNode<T>
         LinkedList<IChild> queue = new LinkedList<>();
 
         for (IChild child : children) {
-            if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject() == childValue
-                    || child instanceof MutableChildNode && ((MutableChildNode) child).getObject() == childValue) {
+            if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject().equals(childValue)
+                    || child instanceof MutableChildNode && ((MutableChildNode) child).getObject().equals(childValue)) {
                 children.remove(child);
                 return true;
             }
 
             if (child instanceof MutableParentNode)
-                queue.addLast((MutableParentNode) child);
+                queue.addLast(child);
         }
 
         IChild currentNode;
@@ -134,8 +135,8 @@ public class MutableParentNode<T>
             currentNode = queue.removeFirst();
 
             for (Object child : ((MutableParentNode) currentNode).getChildren()) {
-                if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject() == childValue
-                        || child instanceof MutableChildNode && ((MutableChildNode) child).getObject() == childValue) {
+                if (child instanceof MutableParentNode && ((MutableParentNode) child).getObject().equals(childValue)
+                        || child instanceof MutableChildNode && ((MutableChildNode) child).getObject().equals(childValue)) {
                     ((MutableParentNode) currentNode).removeChildByValue(childValue);
                     return true;
                 }

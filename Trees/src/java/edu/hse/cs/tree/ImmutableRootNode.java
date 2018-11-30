@@ -107,9 +107,9 @@ public class ImmutableRootNode<T>
     @Override
     public boolean contains(T childValue) {
         for (IChild<T> child : this.children) {
-            if (child instanceof ImmutableChildNode && ((ImmutableChildNode<T>) child).getObject() == childValue)
+            if (child instanceof ImmutableChildNode && ((ImmutableChildNode<T>) child).getObject().equals(childValue))
                 return true;
-            if (child instanceof ImmutableParentNode && ((ImmutableParentNode<T>) child).getObject() == childValue)
+            if (child instanceof ImmutableParentNode && ((ImmutableParentNode<T>) child).getObject().equals(childValue))
                 return true;
         }
 
@@ -127,7 +127,7 @@ public class ImmutableRootNode<T>
             }
             if (child instanceof ImmutableChildNode)
             {
-                if (((ImmutableChildNode) child).getObject() == childValue)
+                if (((ImmutableChildNode) child).getObject().equals(childValue))
                     return true;
             }
         }

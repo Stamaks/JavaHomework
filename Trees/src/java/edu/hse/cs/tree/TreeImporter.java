@@ -10,10 +10,10 @@ public class TreeImporter {
         if (input.isEmpty())
             return null;
 
-        return (MutableRootNode) getChild(input, 0, 0, "");
+        return (MutableRootNode) getChild(input, 4, 4, "");
     }
 
-    public static AbstractTreeNode getChild(String input, int currentIndentSize, final int indentSize, String objectType) {
+    private static AbstractTreeNode getChild(String input, int currentIndentSize, final int indentSize, String objectType) {
         String regex = "[)][\n] {" + currentIndentSize + "}[M]";
         String[] nodes = input.split(regex);
 

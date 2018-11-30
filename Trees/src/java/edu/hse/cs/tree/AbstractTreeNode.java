@@ -8,7 +8,7 @@ package edu.hse.cs.tree;
 public abstract class AbstractTreeNode<T>
         implements IWrapper<T> {
 
-    public static final String INDENT = "   "; // string indent (3 space characters)
+    public static final String INDENT = "    "; // string indent (3 space characters)
 
     private final T object;
 
