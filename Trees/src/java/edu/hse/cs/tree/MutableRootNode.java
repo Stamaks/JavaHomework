@@ -204,7 +204,7 @@ public class MutableRootNode<T>
 
         if (children != null)
             for (IChild<T> el : children) {
-                allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent);
+                allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent + INDENT);
             }
 
         return MutableRootNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;

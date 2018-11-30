@@ -141,7 +141,7 @@ public class ImmutableRootNode<T>
 
         if (children != null)
             for (IChild<T> el : children) {
-                allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent);
+                allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent + INDENT);
             }
 
         return ImmutableRootNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
