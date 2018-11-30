@@ -13,7 +13,6 @@ public class TreeTest {
     public void testGetChildren(){
         MutableRootNode<String> root = populateTree();
         Assertions.assertEquals(root.getChildren().size(), 3);
-        System.out.println(root.toStringForm(""));
     }
 
 

@@ -15,25 +15,20 @@ public class ToStringFormTest {
     public void testToStringFormMutableTree(){
         MutableRootNode<String> root = populateTree();
         String stringForm = root.toStringForm("");
-        System.out.println(stringForm);
 
-        // Проверяем, что все ноды содержатся
+        // Проверяем, что все ноды содержатся. Не можем проверить иначе, потому что HashSet не запоминает порядок
         Assertions.assertTrue(stringForm.contains("MutableRootNode(Root)"));
-        Assertions.assertTrue(stringForm.contains("MutableParentNode(Parent0)"));
-        Assertions.assertTrue(stringForm.contains("MutableChildNode(Child00)"));
-        Assertions.assertTrue(stringForm.contains("MutableChildNode(Child01)"));
-        Assertions.assertTrue(stringForm.contains("MutableParentNode(Parent1)"));
-        Assertions.assertTrue(stringForm.contains("MutableChildNode(Child10)"));
-        Assertions.assertTrue(stringForm.contains("MutableChildNode(Child0)"));
+        Assertions.assertTrue(stringForm.contains("\n    MutableParentNode(Parent0)"));
+        Assertions.assertTrue(stringForm.contains("\n        MutableChildNode(Child00)"));
+        Assertions.assertTrue(stringForm.contains("\n        MutableChildNode(Child01)"));
+        Assertions.assertTrue(stringForm.contains("\n    MutableParentNode(Parent1)"));
+        Assertions.assertTrue(stringForm.contains("\n        MutableChildNode(Child10)"));
+        Assertions.assertTrue(stringForm.contains("\n    MutableChildNode(Child0)"));
 
-        MutableRootNode<String> newRoot = TreeImporter.importMutableTree(stringForm);
-        Assertions.assertFalse(newRoot.containsDescendants("Root"));
-        Assertions.assertTrue(newRoot.containsDescendants("Parent0"));
-        Assertions.assertTrue(newRoot.containsDescendants("Child00"));
-        Assertions.assertTrue(newRoot.containsDescendants("Child01"));
-        Assertions.assertTrue(newRoot.containsDescendants("Parent1"));
-        Assertions.assertTrue(newRoot.containsDescendants("Child10"));
-        Assertions.assertTrue(newRoot.containsDescendants("Child0"));
+        Assertions.assertFalse(stringForm.contains("\n     MutableChildNode(Child0)"));
+        Assertions.assertFalse(stringForm.contains("MutableChildNode(Child)"));
+
+
     }
 
 }
