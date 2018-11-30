@@ -6,19 +6,11 @@ import java.util.regex.Pattern;
 
 public class TreeImporter {
     public static <T> MutableRootNode<T> importMutableTree(String input) {
-        // TODO place your implementation of tree parser here.
-        // Here you are also allowed to create static private subroutines in this class
 
-        if (input.isEmpty()) {
-            System.out.println("Input is empty!");
-        }
-        else {
-            getChild(input, 0, 0, "");
-        }
+        if (input.isEmpty())
+            return null;
 
-
-
-        return null; // temporary stub
+        return (MutableRootNode) getChild(input, 0, 0, "");
     }
 
     public static AbstractTreeNode getChild(String input, int currentIndentSize, final int indentSize, String objectType) {
