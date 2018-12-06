@@ -28,38 +28,87 @@ public class ImmutableParentNode<T>
      * @param parent parent of new immutable node
      */
     private ImmutableParentNode(MutableParentNode<T> source, ParentImmutable<T> parent) {
-        super(null, null); // stub
-        // TODO implement private constructor
-        throw new RuntimeException("Not implemented yet.");
+        super(source.getObject(), parent);
+
+        Set<ChildImmutable<T>> temp = new HashSet<>();
+
+        for (ChildMutable<T> child : source.getChildren()) {
+            if (child instanceof MutableParentNode) {
+                ImmutableParentNode<T> node = new ImmutableParentNode<T>((MutableParentNode<T>) child, this);
+
+                temp.add(node);
+            }
+
+            if (child instanceof MutableChildNode) {
+                ImmutableChildNode<T> node = new ImmutableChildNode<T>(child.getObject(), this);
+
+                temp.add(node);
+            }
+        }
+
+        this.children = temp;
     }
 
     @Override
     public Set<? extends ChildImmutable<T>> getChildren() {
-        // TODO implement getter
-        throw new RuntimeException("Not implemented yet.");
+        return children;
     }
 
     @Override
     public Collection<? extends ChildImmutable<T>> getAllDescendants() {
-        // TODO implement tree traversing and collecting
-        throw new RuntimeException("Not implemented yet.");
+        Set<ChildImmutable<T>> descendants = new HashSet<>(this.children);
+
+        for (ChildImmutable<T> child : descendants)
+        {
+            if (child instanceof ImmutableParentNode) {
+                descendants.addAll(((ImmutableParentNode<T>) child).getAllDescendants());
+            }
+
+            descendants.add(child);
+        }
+
+        return descendants;
     }
 
     @Override
     public boolean hasChildWithValue(T childValue) {
-        // TODO implement collection search
-        throw new RuntimeException("Not implemented yet.");
+        for (ChildImmutable<T> child : this.children) {
+            if (child instanceof ImmutableChildNode && child.getObject().equals(childValue))
+                return true;
+            if (child instanceof ImmutableParentNode && child.getObject().equals(childValue))
+                return true;
+        }
+
+        return false;
     }
 
     @Override
     public boolean hasDescendantWithValue(T childValue) {
-        // TODO implement recursive search
-        throw new RuntimeException("Not implemented yet.");
+        for (ChildImmutable<T> child : this.children)
+        {
+            if (child instanceof ImmutableParentNode) {
+                if (((ImmutableParentNode<T>) child).hasChildWithValue(childValue))
+                    return true;
+            }
+            if (child instanceof ImmutableChildNode)
+            {
+                if (((ImmutableChildNode) child).getObject().equals(childValue))
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public String toStringForm(String indent) {
-        // TODO implement toStringForm
-        throw new RuntimeException("Not implemented yet.");
+        String allNodes = "";
+
+        if (children != null)
+            for (ChildImmutable<T> child : children) {
+                allNodes += "\n" + ((AbstractTreeNode) child).toStringForm(indent + INDENT);
+            }
+
+        return indent + ImmutableParentNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
     }
 }

@@ -6,21 +6,15 @@ public class ImmutableChildNode<T>
     private final ParentImmutable<T> parent;
 
     ImmutableChildNode(T object, ParentImmutable<T> parent) {
-        // TODO implement constructor
-        super(null); // stub
-        this.parent = null; // stub
-        throw new RuntimeException("Not implemented yet.");
+        super(object);
+        this.parent = parent;
     }
 
     @Override
-    public ParentImmutable<T> getParent() {
-        // TODO implement getter
-        throw new RuntimeException("Not implemented yet.");
-    }
+    public ParentImmutable<T> getParent() { return parent; }
 
     @Override
     public String toStringForm(String indent) {
-        // TODO implement toStringForm
-        throw new RuntimeException("Not implemented yet.");
+        return indent + ImmutableChildNode.class.getSimpleName() + "(" + getObject().toString() + ")";
     }
 }

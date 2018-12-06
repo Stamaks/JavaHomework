@@ -119,6 +119,6 @@ public class ImmutableParentNode<T>
                 allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent + INDENT);
             }
 
-        return indent + ImmutableRootNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
+        return indent + ImmutableParentNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
     }
 }
