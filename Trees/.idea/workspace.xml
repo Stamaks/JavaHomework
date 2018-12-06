@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="16b8c6d8-b990-48ae-b145-2384f96e91e4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../HW2_v3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../HW2_v3/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/ImmutableChildNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/ImmutableChildNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/ImmutableParentNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/ImmutableParentNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/edu/hse/cs/tree/ImmutableParentNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/edu/hse/cs/tree/ImmutableParentNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/MutableChildNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/MutableChildNode.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -170,32 +169,19 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="4" />
-          <entry key="java" value="47" />
+          <entry key="java" value="48" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="4" />
-          <entry key="JAVA" value="47" />
+          <entry key="JAVA" value="48" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/java/edu/hse/cs/tree/MutableParentNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1691">
-              <caret line="97" column="24" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="24" />
-              <folding>
-                <element signature="e#799#800#0" expanded="true" />
-                <element signature="e#839#840#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/edu/hse/cs/tree/AbstractTreeNode.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -265,11 +251,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/edu/hse/cs/tree/ImmutableParentNode.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="716">
               <caret line="121" column="43" selection-start-line="121" selection-start-column="43" selection-end-line="121" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/java/edu/hse/cs/tree/MutableChildNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="25" column="100" lean-forward="true" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="100" />
             </state>
           </provider>
         </entry>
@@ -608,7 +603,7 @@
       <workItem from="1543575910830" duration="3844000" />
       <workItem from="1543597526319" duration="5860000" />
       <workItem from="1543846170623" duration="1066000" />
-      <workItem from="1544041352508" duration="2645000" />
+      <workItem from="1544041352508" duration="3284000" />
     </task>
     <servers />
   </component>
@@ -645,7 +640,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126323000" />
+    <option name="totallyTimeSpent" value="126962000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -775,13 +770,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/edu/hse/cs/tree/MutableChildNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/edu/hse/cs/tree/ImmutableRootNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="490">
@@ -907,6 +895,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="716">
           <caret line="121" column="43" selection-start-line="121" selection-start-column="43" selection-end-line="121" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/edu/hse/cs/tree/MutableChildNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="25" column="100" lean-forward="true" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="100" />
         </state>
       </provider>
     </entry>

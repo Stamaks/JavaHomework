@@ -7,26 +7,21 @@ public class MutableChildNode<T>
     private ParentMutable<T> parent;
 
     MutableChildNode(T object) {
-        super(null);
-        // TODO implement ctor
-        throw new RuntimeException("Not implemented yet.");
+        super(object);
     }
 
     @Override
     public ParentMutable<T> getParent() {
-        // TODO implement getter
-        throw new RuntimeException("Not implemented yet.");
+        return parent;
     }
 
     @Override
     public void setParent(ParentMutable<T> newParent) {
-        // TODO implement setter
-        throw new RuntimeException("Not implemented yet.");
+        this.parent = newParent;
     }
 
     @Override
     public String toStringForm(String indent) {
-        // TODO implement toStringForm
-        throw new RuntimeException("Not implemented yet.");
+        return indent + MutableChildNode.class.getSimpleName() + "(" + getObject().toString() + ")";
     }
 }
