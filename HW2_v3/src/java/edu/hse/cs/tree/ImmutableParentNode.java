@@ -74,10 +74,7 @@ public class ImmutableParentNode<T>
     public boolean hasChildWithValue(T childValue) {
         for (ChildImmutable<T> child : this.children) {
 
-            if (child instanceof ImmutableChildNode && child.getObject().equals(childValue))
-                return true;
-
-            if (child instanceof ImmutableParentNode && child.getObject().equals(childValue))
+            if (child.getObject().equals(childValue))
                 return true;
         }
 
@@ -88,11 +85,11 @@ public class ImmutableParentNode<T>
     public boolean hasDescendantWithValue(T childValue) {
         for (ChildImmutable<T> child : this.children)
         {
-            if (child instanceof ImmutableParentNode && ((ImmutableParentNode<T>) child).hasChildWithValue(childValue))
-                    return true;
-
-            if (child instanceof ImmutableChildNode && child.getObject().equals(childValue))
+            if (child.getObject().equals(childValue))
                 return true;
+            
+            if (child instanceof ImmutableParentNode && ((ImmutableParentNode<T>) child).hasDescendantWithValue(childValue))
+                    return true;
         }
 
         return false;

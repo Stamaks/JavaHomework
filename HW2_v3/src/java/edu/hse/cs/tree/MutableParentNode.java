@@ -14,57 +14,92 @@ public class MutableParentNode<T>
     private Set<ChildMutable<T>> children;
 
     MutableParentNode(T object) {
-        super(null); // stub
-        // TODO implement ctor
-        throw new RuntimeException("Not implemented yet.");
+        super(object);
+
+        this.children = new HashSet<>();
     }
 
     // ParentMutable implementation:
     @Override
     public Set<? extends ChildMutable<T>> getChildren() {
-        // TODO implement getter
-        throw new RuntimeException("Not implemented yet.");
+        return this.children;
     }
 
     @Override
     public void setChildren(Set<? extends ChildMutable<T>> children) {
-        // TODO implement children set reassignment
-        throw new RuntimeException("Not implemented yet.");
+        this.children = new HashSet<>(children) ;
     }
 
     @Override
     public boolean addChild(ChildMutable<T> child) {
-        // TODO implement child adding
-        throw new RuntimeException("Not implemented yet.");
+        this.children.add(child);
+
+        return true;
     }
 
     @Override
-    public boolean removeChild(ChildMutable<T> child) {
-        // TODO implement child removing
-        throw new RuntimeException("Not implemented yet.");
+    public boolean removeChild(ChildMutable<T> childToRemove) {
+
+        for (ChildMutable<T> child : children) {
+            if (child.equals(childToRemove)) {
+                children.remove(child);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public Collection<? extends ChildMutable<T>> getAllDescendants() {
-        // TODO implement tree traversing and collecting
-        throw new RuntimeException("Not implemented yet.");
+        Set<ChildMutable<T>> descendants = new HashSet<>();
+
+        for (ChildMutable child : children)
+        {
+            if (child instanceof MutableParentNode) {
+                descendants.addAll(((MutableParentNode<T>) child).getAllDescendants());
+            }
+
+            children.add(child);
+        }
+
+        return descendants;
     }
 
     @Override
     public boolean hasChildWithValue(T childValue) {
-        // TODO implement collection search
-        throw new RuntimeException("Not implemented yet.");
+
+        for (ChildMutable<T> child : this.children) {
+            if (child.getObject().equals(childValue))
+                return true;
+        }
+
+        return false;
     }
 
     @Override
     public boolean hasDescendantWithValue(T childValue) {
-        // TODO implement recursive search
-        throw new RuntimeException("Not implemented yet.");
+        for (ChildMutable<T> child : this.children)
+        {
+            if (child.getObject().equals(childValue))
+                return true;
+
+            if (child instanceof MutableParentNode && ((MutableParentNode<T>) child).hasDescendantWithValue(childValue))
+                return true;
+        }
+
+        return false;
     }
 
     @Override
     public String toStringForm(String indent) {
-        // TODO implement toStringForm
-        throw new RuntimeException("Not implemented yet.");
+        String allNodes = "";
+
+        if (children != null)
+            for (ChildMutable<T> el : children) {
+                allNodes += "\n" + ((AbstractTreeNode) el).toStringForm(indent + INDENT);
+            }
+
+        return indent + MutableParentNode.class.getSimpleName() + "(" + getObject().toString() + ")" + allNodes;
     }
 }
