@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="16b8c6d8-b990-48ae-b145-2384f96e91e4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../HW2_v3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../HW2_v3/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/ImmutableParentNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/ImmutableParentNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/TreeImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HW2_v3/src/java/edu/hse/cs/tree/TreeImporter.java" afterDir="false" />
-    </list>
+    <list default="true" id="16b8c6d8-b990-48ae-b145-2384f96e91e4" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -437,6 +433,10 @@
               <item name="tests" type="462c0819:PsiDirectoryNode" />
               <item name="tree" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="HW2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -604,7 +604,7 @@
       <workItem from="1543575910830" duration="3844000" />
       <workItem from="1543597526319" duration="5860000" />
       <workItem from="1543846170623" duration="1066000" />
-      <workItem from="1544041352508" duration="5928000" />
+      <workItem from="1544041352508" duration="6144000" />
     </task>
     <servers />
   </component>
@@ -641,7 +641,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="129606000" />
+    <option name="totallyTimeSpent" value="129822000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
