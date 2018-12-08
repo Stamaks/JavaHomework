@@ -87,7 +87,7 @@ public class ImmutableParentNode<T>
         {
             if (child.getObject().equals(childValue))
                 return true;
-            
+
             if (child instanceof ImmutableParentNode && ((ImmutableParentNode<T>) child).hasDescendantWithValue(childValue))
                     return true;
         }
