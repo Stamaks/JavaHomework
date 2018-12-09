@@ -16,9 +16,25 @@ public class ImmutableParentNode<T>
      * @throws IllegalArgumentException if source is not a root node ({@param source} has a parent)
      */
     public ImmutableParentNode(MutableParentNode<T> source) {
-        super(null, null); // stub
-        // TODO implement public constructor
-        throw new RuntimeException("Not implemented yet.");
+        super(source.getObject(), null);
+
+        Set<ChildImmutable<T>> temp = new HashSet<>();
+
+        for (ChildMutable<T> child : source.getChildren()) {
+
+            if (child instanceof MutableParentNode) {
+                ImmutableParentNode<T> node = new ImmutableParentNode<T>((MutableParentNode<T>) child,this);
+
+                temp.add(node);
+            }
+            else {
+                ImmutableChildNode<T> node = new ImmutableChildNode<T>(child.getObject(), this);
+
+                temp.add(node);
+            }
+        }
+
+        this.children = temp;
     }
 
     /**
@@ -58,7 +74,7 @@ public class ImmutableParentNode<T>
     public Collection<? extends ChildImmutable<T>> getAllDescendants() {
         Set<ChildImmutable<T>> descendants = new HashSet<>(this.children);
 
-        for (ChildImmutable<T> child : descendants)
+        for (ChildImmutable<T> child : children)
         {
             if (child instanceof ImmutableParentNode) {
                 descendants.addAll(((ImmutableParentNode<T>) child).getAllDescendants());

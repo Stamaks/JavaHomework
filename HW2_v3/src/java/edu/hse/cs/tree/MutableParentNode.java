@@ -56,11 +56,11 @@ public class MutableParentNode<T>
 
         for (ChildMutable child : children)
         {
+            descendants.add(child);
+
             if (child instanceof MutableParentNode) {
                 descendants.addAll(((MutableParentNode<T>) child).getAllDescendants());
             }
-
-            children.add(child);
         }
 
         return descendants;

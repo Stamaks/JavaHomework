@@ -54,7 +54,7 @@ public class MutableTreeTest {
     }
 
     @Test
-    public void testToStringFormMutableTree2(){
+    public void testToStringFormMutableTree(){
         MutableParentNode<String> root = populateTree();
         String stringForm = root.toStringForm("");
 
@@ -145,10 +145,7 @@ public class MutableTreeTest {
     }
 
     @Test void testHasChildWithValue() {
-        MutableParentNode<String> root = populateTree();
-        String stringForm = root.toStringForm("");
-
-        MutableParentNode<String> newRoot = (MutableParentNode<String>) TreeImporter.importMutableTree(stringForm);
+        MutableParentNode<String> newRoot = populateTree();
         Assertions.assertNotNull(newRoot);
         Assertions.assertTrue(newRoot.hasChildWithValue("Child0"));
         Assertions.assertTrue(newRoot.hasChildWithValue("Parent0"));
@@ -216,6 +213,38 @@ public class MutableTreeTest {
         descendants.addAll(parent1Children);
 
         Assertions.assertEquals(descendants, root.getAllDescendants());
+    }
+
+    @Test
+    public void testRemoveChild() {
+        MutableParentNode<String> root = new MutableParentNode<>("Root");
+
+        MutableParentNode<String> parent0 = new MutableParentNode<>("Parent0");
+        MutableParentNode<String> parent1 = new MutableParentNode<>("Parent1");
+
+        MutableChildNode<String> child0 = new MutableChildNode<>("Child0");
+
+        Set<ChildMutable<String>> rootChildren = new HashSet<>(3);
+        rootChildren.add(parent0);
+        rootChildren.add(parent1);
+        rootChildren.add(child0);
+        root.setChildren(rootChildren);
+        parent0.setParent(root);
+        parent1.setParent(root);
+        child0.setParent(root);
+
+        Assertions.assertEquals(3, root.getChildren().size());
+
+        MutableChildNode<String> falseChild = new MutableChildNode<>("Child00000");
+
+        Assertions.assertFalse(root.removeChild(falseChild));
+        Assertions.assertTrue(root.removeChild(child0));
+        Assertions.assertEquals(2, root.getChildren().size());
+        Assertions.assertTrue(root.removeChild(parent0));
+        Assertions.assertEquals(1, root.getChildren().size());
+        Assertions.assertTrue(root.removeChild(parent1));
+        Assertions.assertEquals(0, root.getChildren().size());
+
     }
 
     public static MutableParentNode<String> populateTree(){
