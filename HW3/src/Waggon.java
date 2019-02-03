@@ -16,7 +16,7 @@ public class Waggon {
     public static void setCoordX(double coordX) {
         Waggon.coordX = coordX;
 
-        history.append(String.format("Start coordinate x: %f%n", coordX));
+        history.append(String.format("Start coordinate x: %.2f%n", coordX));
     }
 
     public static synchronized double getCoordY() {
@@ -26,7 +26,7 @@ public class Waggon {
     public static void setCoordY(double coordY) {
         Waggon.coordY = coordY;
 
-        history.append(String.format("Start coordinate y: %f%n", coordY));
+        history.append(String.format("Start coordinate y: %.2f%n", coordY));
     }
 
     public static String getHistory() {
@@ -47,7 +47,7 @@ public class Waggon {
         coordY += coef * Math.sin(angle);
 
         history.append(String.format(
-                "%.3fs: %s moved waggon to (%f, %f)%nCoefficient: %d, cos: %f, sin: %f%n",
+                "%.3fs: %s moved waggon to (%.2f, %.2f)%nCoefficient: %d, cos: %.2f, sin: %.2f%n",
                 (System.currentTimeMillis() - startTime) / 1000.0,
                 species, coordX, coordY, coef, Math.cos(angle), Math.sin(angle)
         ));
