@@ -1,20 +1,27 @@
 package karnaukhova;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
-import javafx.scene.input.DragEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class Controller {
 
+    private final String NEGATIVE_NUMBER_MESSAGE = "Значение этого параметра не может быть отрицательным";
+    private final String WRONG_NUMBER_FORMAT_MESSAGE = "Проверьте правильность значения параметра";
+    private final String LEFT_BOUND_MESSAGE = "Значение нижней границы не может превышать значения верхней границы";
+
     public MenuItem menuItemHelp;
     public MenuItem menuItemAuthor;
+    public MenuItem menuItemExit;
     public Canvas mainCanvas;
     public Slider sliderSwan;
     public Slider sliderPike;
@@ -29,6 +36,11 @@ public class Controller {
     public Button buttonStart;
     public Button buttonStop;
     public Button buttonReset;
+
+    public void initialize() {
+        setOnFocusLostListeners();
+    }
+
 
     public void onMenuItemHelpAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("help.fxml"));
@@ -48,44 +60,51 @@ public class Controller {
         authorStage.show();
     }
 
-    public void onDragSwanDone(DragEvent dragEvent) {
-
+    public void onMenuItemExitAction(ActionEvent actionEvent) {
+        Platform.exit();
     }
 
-    public void onDragPikeDone(DragEvent dragEvent) {
-
+    public void onTextSBottomAction(ActionEvent actionEvent) throws IOException {
+        checkLeftBoundary(textSBottom, textSTop);
     }
 
-    public void onDragCrawfishDone(DragEvent dragEvent) {
-
+    public void onTextSTopAction(ActionEvent actionEvent) throws IOException {
+        checkRightBoundary(textSTop, textSBottom);
     }
 
-    public void onTextSBottomAction(ActionEvent actionEvent) {
-
+    public void onTextSleepBottomAction(ActionEvent actionEvent) throws IOException {
+        checkLeftBoundary(textSleepBottom, textSleepTop);
     }
 
-    public void onTextSTopAction(ActionEvent actionEvent) {
-
+    public void onTextSleepTopAction(ActionEvent actionEvent) throws IOException {
+        checkRightBoundary(textSleepTop, textSleepBottom);
     }
 
-    public void onTextSleepBottomAction(ActionEvent actionEvent) {
-
+    public void onTextDurationAction(ActionEvent actionEvent) throws IOException {
+        try {
+            Integer.parseInt(textDuration.getText());
+        }
+        catch (NumberFormatException e) {
+            showErrorStage(textDuration, WRONG_NUMBER_FORMAT_MESSAGE);
+        }
     }
 
-    public void onTextSleepTopAction(ActionEvent actionEvent) {
-
+    public void onTextWaggonXAction(ActionEvent actionEvent) throws IOException {
+        try {
+            Double.parseDouble(textWaggonX.getText());
+        }
+        catch (NumberFormatException e) {
+            showErrorStage(textWaggonX, WRONG_NUMBER_FORMAT_MESSAGE);
+        }
     }
 
-    public void onTextDurationAction(ActionEvent actionEvent) {
-
-    }
-
-    public void onTextWaggonXAction(ActionEvent actionEvent) {
-
-    }
-
-    public void onTextWaggonYAction(ActionEvent actionEvent) {
-
+    public void onTextWaggonYAction(ActionEvent actionEvent) throws IOException {
+        try {
+            Double.parseDouble(textWaggonY.getText());
+        }
+        catch (NumberFormatException e) {
+            showErrorStage(textWaggonY, WRONG_NUMBER_FORMAT_MESSAGE);
+        }
     }
 
     public void onStartButtonAction(ActionEvent actionEvent) {
@@ -124,6 +143,142 @@ public class Controller {
 
     }
 
+    private void setOnFocusLostListeners(){
+        textSBottom.focusedProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+            {
+                if (!newValue)
+                {
+                    try {
+                        onTextSBottomAction(new ActionEvent());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        textSTop.focusedProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+            {
+                if (!newValue)
+                {
+                    try {
+                        onTextSTopAction(new ActionEvent());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        textSleepBottom.focusedProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+            {
+                if (!newValue)
+                {
+                    try {
+                        onTextSleepBottomAction(new ActionEvent());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        textSleepTop.focusedProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+            {
+                if (!newValue)
+                {
+                    try {
+                        onTextSleepTopAction(new ActionEvent());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        textDuration.focusedProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+            {
+                if (!newValue)
+                {
+                    try {
+                        onTextDurationAction(new ActionEvent());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        textWaggonX.focusedProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+            {
+                if (!newValue)
+                {
+                    try {
+                        onTextWaggonXAction(new ActionEvent());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        textWaggonY.focusedProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+            {
+                if (!newValue)
+                {
+                    try {
+                        onTextWaggonYAction(new ActionEvent());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private void checkLeftBoundary(TextField textFieldLeft, TextField textFieldRight) throws IOException {
+        try {
+            int result = Integer.parseInt(textFieldLeft.getText());
+            if (result < 0)
+                showErrorStage(textFieldLeft, NEGATIVE_NUMBER_MESSAGE);
+            else if (result > Integer.parseInt(textFieldRight.getText()))
+                showErrorStage(textFieldLeft, LEFT_BOUND_MESSAGE);
+
+        }
+        catch (NumberFormatException e) {
+            showErrorStage(textFieldLeft, WRONG_NUMBER_FORMAT_MESSAGE);
+        }
+    }
+
+    private void checkRightBoundary(TextField textFieldRight, TextField textFieldLeft) throws IOException {
+        try {
+            int result = Integer.parseInt(textFieldRight.getText());
+            if (result < 0)
+                showErrorStage(textFieldRight, NEGATIVE_NUMBER_MESSAGE);
+            else if (result < Integer.parseInt(textFieldLeft.getText()))
+                showErrorStage(textFieldRight, LEFT_BOUND_MESSAGE);
+
+        }
+        catch (NumberFormatException e) {
+            showErrorStage(textFieldRight, WRONG_NUMBER_FORMAT_MESSAGE);
+        }
+    }
+
     private void setDisableAll(boolean state, Control ... controls) {
         for (Control control: controls)
             control.setDisable(state);
@@ -142,13 +297,16 @@ public class Controller {
         textWaggonY.setText("0");
     }
 
-    private void showErrorStage() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("valueError.fxml"));
-        Stage errorStage = new Stage();
-        errorStage.setTitle("Ошибка!");
-        errorStage.setScene(new Scene(root));
-        errorStage.setResizable(false);
-        errorStage.setAlwaysOnTop(true);
-        errorStage.show();
+    private void showErrorStage(Control control, String message) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ошибка");
+        alert.setHeaderText("Такое значение параметра задать нельзя :(");
+        alert.setContentText(message);
+
+        alert.showAndWait();
+
+        control.requestFocus();
     }
+
+
 }
