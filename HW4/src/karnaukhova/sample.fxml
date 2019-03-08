@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karnaukhova.Controller">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Помощь">
+            <items>
+              <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#onMenuItemHelpAction" text="Руководство" />
+                  <MenuItem fx:id="menuItemAuthor" mnemonicParsing="false" onAction="#onMenuItemAuthorAction" text="Об авторе" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <HBox prefHeight="423.0" prefWidth="843.0">
+         <children>
+            <Canvas fx:id="mainCanvas" height="586.0" width="765.0" HBox.hgrow="ALWAYS" />
+            <VBox alignment="TOP_RIGHT" centerShape="false" prefHeight="437.0" prefWidth="245.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="32.0" prefWidth="253.0" text="Параметры" textAlignment="CENTER" />
+                  <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения лебедя:" />
+                  <Slider fx:id="sliderSwan" blockIncrement="1.0" max="360.0" minorTickCount="1" onDragDone="#onDragSwanDone" prefHeight="23.0" prefWidth="245.0" value="60.0" />
+                  <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения рака:" />
+                  <Slider fx:id="sliderPike" blockIncrement="1.0" max="360.0" minorTickCount="1" onDragDone="#onDragPikeDone" prefHeight="23.0" prefWidth="245.0" value="180.0" />
+                  <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения щуки:" />
+                  <Slider fx:id="sliderCrawfish" blockIncrement="1.0" max="360.0" minorTickCount="1" onDragDone="#onDragCrawfishDone" prefHeight="23.0" prefWidth="245.0" value="300.0" />
+                  <Label prefHeight="26.0" prefWidth="248.0" text="Интервал распределения сдвига:" />
+                  <HBox prefHeight="32.0" prefWidth="245.0">
+                     <children>
+                        <TextField fx:id="textSBottom" onAction="#onTextSBottomAction" prefHeight="25.0" prefWidth="83.0" text="1" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="36.0" text="—" />
+                        <TextField fx:id="textSTop" layoutX="10.0" layoutY="10.0" onAction="#onTextSTopAction" prefHeight="25.0" prefWidth="83.0" text="10" />
+                     </children>
+                  </HBox>
+                  <Label prefHeight="26.0" prefWidth="248.0" text="Интервал распределения сна (мс):" />
+                  <HBox prefHeight="32.0" prefWidth="245.0">
+                     <children>
+                        <TextField fx:id="textSleepBottom" onAction="#onTextSleepBottomAction" prefHeight="25.0" prefWidth="83.0" text="1000" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="36.0" text="—" />
+                        <TextField fx:id="textSleepTop" layoutX="10.0" layoutY="10.0" onAction="#onTextSleepTopAction" prefHeight="25.0" prefWidth="83.0" text="5000" />
+                     </children>
+                  </HBox>
+                  <Label prefHeight="26.0" prefWidth="251.0" text="Продолжительность симуляции(с):" />
+                  <HBox prefHeight="32.0" prefWidth="245.0">
+                     <children>
+                        <TextField fx:id="textDuration" onAction="#onTextDurationAction" prefHeight="25.0" prefWidth="83.0" text="25" />
+                     </children>
+                  </HBox>
+                  <Label prefHeight="26.0" prefWidth="248.0" text="Начальные координаты тележки:" />
+                  <HBox prefHeight="32.0" prefWidth="245.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="36.0" text="x:" />
+                        <TextField fx:id="textWaggonX" onAction="#onTextWaggonXAction" prefHeight="25.0" prefWidth="83.0" text="0" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="36.0" text="y:" />
+                        <TextField fx:id="textWaggonY" layoutX="10.0" layoutY="10.0" onAction="#onTextWaggonYAction" prefHeight="25.0" prefWidth="83.0" text="0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="buttonStart" mnemonicParsing="false" onAction="#onStartButtonAction" prefHeight="33.0" prefWidth="120.0" text="Start">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="350.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="buttonStop" mnemonicParsing="false" onAction="#onStopButtonAction" prefHeight="33.0" prefWidth="120.0" text="Stop">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="buttonReset" mnemonicParsing="false" onAction="#onResetButtonAction" prefHeight="33.0" prefWidth="120.0" text="Reset">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>
