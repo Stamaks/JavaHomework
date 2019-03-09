@@ -7,6 +7,7 @@ public class Animal implements Runnable {
     private String species;
     private double angle;
     private StringBuilder history;
+    public Waggon waggon;
 
     public String getSpecies() {
         return species;
@@ -20,9 +21,10 @@ public class Animal implements Runnable {
         return history.toString();
     }
 
-    public Animal(String species, double angle) {
+    public Animal(String species, double angle, Waggon waggon) {
         this.species = species;
         this.angle = angle;
+        this.waggon = waggon;
 
         history = new StringBuilder();
     }
@@ -33,7 +35,7 @@ public class Animal implements Runnable {
 
         while (true) {
             try {
-                Waggon.changeWaggonCoordinates(species, angle);
+                waggon.changeWaggonCoordinates(species, angle);
 
                 int millsToSleep = 1000 + rand.nextInt(4000); // [1000, 5000)
                 history.append(String.format(

@@ -12,16 +12,16 @@ public class Main {
 
         checkArguments(args);
 
-        setWaggonStartCoordinates(args);
+        Waggon waggon = new Waggon();
+
+        setWaggonStartCoordinates(args, waggon);
 
         System.out.println("Program starts!");
 
-        Thread.currentThread().setPriority(Thread.MAX_PRIORITY); // To print every k seconds
-
         // Create animals
-        Animal swan = new Animal("Swan", swanAngle);
-        Animal crawfish = new Animal("Crawfish", crawfishAngle);
-        Animal pike = new Animal("Pike", pikeAngle);
+        Animal swan = new Animal("Swan", swanAngle, waggon);
+        Animal crawfish = new Animal("Crawfish", crawfishAngle, waggon);
+        Animal pike = new Animal("Pike", pikeAngle, waggon);
 
         // Create animals' threads
         Thread swanThread = new Thread(swan);
@@ -35,15 +35,17 @@ public class Main {
         Thread timer = new Thread(hangman);
 
         // Measure startTime for the waggon history
-        Waggon.setStartTime(System.currentTimeMillis());
+        waggon.setStartTime(System.currentTimeMillis());
 
         swanThread.start();
         crawfishThread.start();
         pikeThread.start();
         timer.start();
 
+        double[] currentCoords;
         while (timer.isAlive()) {
-            System.out.printf("Now the waggon coordinates are (%.2f, %.2f)%n", Waggon.getCoordX(), Waggon.getCoordY());
+            currentCoords = waggon.getCoordinates();
+            System.out.printf("Now the waggon coordinates are (%.2f, %.2f)%n", currentCoords[0], currentCoords[1]);
             
             try {
                 Thread.sleep(delay * 1000);
@@ -53,10 +55,11 @@ public class Main {
             }
         }
 
-        System.out.printf("%nThe waggon stopped at (%.2f, %.2f)%n", Waggon.getCoordX(), Waggon.getCoordY());
+        currentCoords = waggon.getCoordinates();
+        System.out.printf("%nThe waggon stopped at (%.2f, %.2f)%n", currentCoords[0], currentCoords[1]);
 
         // Show the waggon or the animals histories if asked
-        showHistories(swan, crawfish, pike);
+        showHistories(swan, crawfish, pike, waggon);
     }
 
     private static void checkArguments(String[] args) {
@@ -68,11 +71,10 @@ public class Main {
         }
     }
 
-    private static void setWaggonStartCoordinates(String[] args) {
+    private static void setWaggonStartCoordinates(String[] args, Waggon waggon) {
         if (args.length == 2) {
             try {
-                Waggon.setCoordX(Double.parseDouble(args[0]));
-                Waggon.setCoordY(Double.parseDouble(args[1]));
+                waggon.setCoordinates(Double.parseDouble(args[0]), Double.parseDouble(args[1]));
             }
             catch (NumberFormatException e)
             {
@@ -81,12 +83,11 @@ public class Main {
             }
         }
         else {
-            Waggon.setCoordX(0);
-            Waggon.setCoordY(0);
+            waggon.setCoordinates(0, 0);
         }
     }
 
-    private static void showHistories(Animal swan, Animal crawfish, Animal pike) {
+    private static void showHistories(Animal swan, Animal crawfish, Animal pike, Waggon waggon) {
         Scanner scanner = new Scanner(System.in);
         String scan = "";
         boolean shouldExit = false;
@@ -102,7 +103,7 @@ public class Main {
                     shouldExit = true;
                     break;
                 case 'w':
-                    System.out.println(Waggon.getHistory());
+                    System.out.println(waggon.getHistory());
                     break;
                 case 's':
                     System.out.println(swan.getHistory());
