@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.canvas.*?>
@@ -22,18 +25,47 @@
               </Menu>
           </menus>
        </MenuBar>
-       <HBox prefHeight="423.0" prefWidth="843.0">
+       <HBox prefHeight="599.0" prefWidth="1024.0">
           <children>
-              <Canvas fx:id="mainCanvas" height="586.0" width="765.0" HBox.hgrow="ALWAYS" />
+            <Pane fx:id="drawPane" prefHeight="575.0" prefWidth="764.0">
+               <children>
+                  <Group fx:id="mainGroup" layoutY="100.0">
+                     <children>
+                        <ImageView fx:id="swanImage" fitHeight="128.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Downloads/swan_PNG26.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="pikeImage" fitHeight="128.0" fitWidth="185.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Downloads/179ca475cda4.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="waggonImage" fitHeight="128.0" fitWidth="185.0" layoutX="5.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Downloads/14704265.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="crawfishImage" fitHeight="128.0" fitWidth="185.0" layoutX="15.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../Downloads/crawfish.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Button fx:id="exp1" layoutX="308.0" layoutY="270.0" mnemonicParsing="false" text="Button" />
+                  <Button fx:id="exp2" layoutX="339.0" layoutY="118.0" mnemonicParsing="false" text="Button" />
+               </children>
+            </Pane>
               <VBox alignment="TOP_RIGHT" centerShape="false" prefHeight="437.0" prefWidth="245.0">
                  <children>
                      <Label alignment="CENTER" prefHeight="32.0" prefWidth="253.0" text="Параметры" textAlignment="CENTER" />
                      <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения лебедя:" />
                      <Slider fx:id="sliderSwan" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" value="60.0" />
                      <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения рака:" />
-                     <Slider fx:id="sliderPike" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="180.0" />
+                     <Slider fx:id="sliderPike" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" value="180.0" />
                      <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения щуки:" />
-                     <Slider fx:id="sliderCrawfish" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="300.0" />
+                     <Slider fx:id="sliderCrawfish" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" value="300.0" />
                      <Label prefHeight="26.0" prefWidth="248.0" text="Интервал распределения сдвига:" />
                      <HBox prefHeight="32.0" prefWidth="245.0">
                         <children>

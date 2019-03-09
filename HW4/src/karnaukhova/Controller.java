@@ -1,15 +1,25 @@
 package karnaukhova;
 
+import javafx.animation.Animation;
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -22,7 +32,6 @@ public class Controller {
     public MenuItem menuItemHelp;
     public MenuItem menuItemAuthor;
     public MenuItem menuItemExit;
-    public Canvas mainCanvas;
     public Slider sliderSwan;
     public Slider sliderPike;
     public Slider sliderCrawfish;
@@ -36,6 +45,14 @@ public class Controller {
     public Button buttonStart;
     public Button buttonStop;
     public Button buttonReset;
+    public Pane drawPane;
+    public Group mainGroup;
+    public ImageView swanImage;
+    public ImageView pikeImage;
+    public ImageView waggonImage;
+    public ImageView crawfishImage;
+    public Button exp1;
+    public Button exp2;
 
     public void initialize() {
         setOnFocusLostListeners();
@@ -111,6 +128,43 @@ public class Controller {
 
         // TODO: начало всего действия
 
+        TranslateTransition transition = new TranslateTransition(Duration.ONE);
+
+//        waggonImage.setX(drawPane.getMaxWidth() / 2);
+//        waggonImage.setY(drawPane.getMaxHeight() / 2);
+//
+//        swanImage.setX(waggonImage.getX() + waggonImage.getFitWidth() / 2);
+
+//        swanImage.setVisible(true);
+//        drawPane.getChildren().add(swanImage);
+//        mainGroup.getChildren().add(swanImage);
+
+        Line line = new Line();
+
+        double[] waggonStartCoordinates = new double[2];
+        waggonStartCoordinates[0] = Double.parseDouble(textWaggonX.getText());
+        waggonStartCoordinates[1] = Double.parseDouble(textWaggonY.getText());
+        int swanAngle = (int) Math.round(sliderSwan.getValue());
+        int pikeAngle = (int) Math.round(sliderPike.getValue());
+        int crawfishAngle = (int) Math.round(sliderCrawfish.getValue());
+        Observer observer = new Observer(waggonStartCoordinates, )
+
+        Animation animation = new Transition() {
+            {
+                setDelay(Duration.ZERO);
+                setCycleDuration(Duration.millis(200));
+                setCycleCount(10); // Кол-во секунд делить на дюрейшн
+            }
+
+            @Override
+            protected void interpolate(double frac) {
+                // Спрашиваем координаты, отрисовываем новое положение тележки
+
+            }
+        };
+
+        animation.play();
+
         buttonStop.setDisable(false);
 
         setDisableAll(
@@ -152,7 +206,6 @@ public class Controller {
                 if (!newValue)
                 {
                     try {
-                        System.out.println("HERE");
                         onTextSBottomAction(new ActionEvent());
                     } catch (IOException e) {
                         e.printStackTrace();
