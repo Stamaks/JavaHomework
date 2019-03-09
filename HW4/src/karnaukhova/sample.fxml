@@ -31,9 +31,9 @@
                      <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения лебедя:" />
                      <Slider fx:id="sliderSwan" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" value="60.0" />
                      <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения рака:" />
-                     <Slider fx:id="sliderPike" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="180.0" />
+                     <Slider fx:id="sliderPike" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" value="180.0" />
                      <Label prefHeight="26.0" prefWidth="248.0" text="Угол движения щуки:" />
-                     <Slider fx:id="sliderCrawfish" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="300.0" />
+                     <Slider fx:id="sliderCrawfish" blockIncrement="1.0" majorTickUnit="50.0" max="360.0" minorTickCount="1" prefHeight="35.0" prefWidth="245.0" showTickLabels="true" showTickMarks="true" value="300.0" />
                      <Label prefHeight="26.0" prefWidth="248.0" text="Интервал распределения сдвига:" />
                      <HBox prefHeight="32.0" prefWidth="245.0">
                         <children>

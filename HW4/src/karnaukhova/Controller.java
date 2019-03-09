@@ -152,6 +152,7 @@ public class Controller {
                 if (!newValue)
                 {
                     try {
+                        System.out.println("HERE");
                         onTextSBottomAction(new ActionEvent());
                     } catch (IOException e) {
                         e.printStackTrace();
