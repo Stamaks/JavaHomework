@@ -5,7 +5,7 @@ public class Observer implements Runnable {
     private int swanAngle, pikeAngle, crawfishAngle;
     private int sBottom, sTop;
     private int sleepBottom, sleepTop;
-    private int simulationDuration;
+    private long simulationDuration;
     private Waggon waggon;
     private Animal swan, pike, crawfish;
 
@@ -31,10 +31,12 @@ public class Observer implements Runnable {
             timer.join();
         } catch (InterruptedException e) {}
 
+        System.out.println(waggon.getHistory());
+
     }
 
     public Observer(double[] startWaggonCoordinates, int swanAngle, int pikeAngle,
-            int crawfishAngle, int sBottom, int sTop, int sleepBottom, int sleepTop, int simulationDuration)
+            int crawfishAngle, int sBottom, int sTop, int sleepBottom, int sleepTop, long simulationDuration)
     {
         this.swanAngle = swanAngle;
         this.pikeAngle = pikeAngle;

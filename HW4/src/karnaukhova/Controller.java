@@ -54,6 +54,9 @@ public class Controller {
     public Button exp1;
     public Button exp2;
 
+    Observer observer;
+    Thread observerThread;
+
     public void initialize() {
         setOnFocusLostListeners();
     }
@@ -141,19 +144,32 @@ public class Controller {
 
         Line line = new Line();
 
+        // TODO: сделать проверку на превышение интеджера
+
         double[] waggonStartCoordinates = new double[2];
         waggonStartCoordinates[0] = Double.parseDouble(textWaggonX.getText());
         waggonStartCoordinates[1] = Double.parseDouble(textWaggonY.getText());
         int swanAngle = (int) Math.round(sliderSwan.getValue());
         int pikeAngle = (int) Math.round(sliderPike.getValue());
         int crawfishAngle = (int) Math.round(sliderCrawfish.getValue());
-        Observer observer = new Observer(waggonStartCoordinates, )
+        int sBottom = Integer.parseInt(textSBottom.getText());
+        int sTop = Integer.parseInt(textSTop.getText());
+        int sleepBottom = Integer.parseInt(textSleepBottom.getText());
+        int sleepTop = Integer.parseInt(textSleepTop.getText());
+        long duration = Integer.parseInt(textDuration.getText()) * 1000;
+
+        observer = new Observer(
+                waggonStartCoordinates, swanAngle, pikeAngle, crawfishAngle, sBottom, sTop, sleepBottom, sleepTop, duration
+        );
+        observerThread = new Thread(observer);
+
 
         Animation animation = new Transition() {
             {
                 setDelay(Duration.ZERO);
                 setCycleDuration(Duration.millis(200));
                 setCycleCount(10); // Кол-во секунд делить на дюрейшн
+                observerThread.start();
             }
 
             @Override
@@ -175,7 +191,13 @@ public class Controller {
 
     public void onStopButtonAction(ActionEvent actionEvent) {
 
-        //TODO: остановка всего действия и присваивание контроллерам значений
+        observerThread.interrupt();
+
+        double[] waggonCoordinates = observer.getWaggonCoordinates();
+
+        textWaggonX.setText(java.lang.String.format("%.2f", waggonCoordinates[0]));
+        textWaggonY.setText(java.lang.String.format("%.2f", waggonCoordinates[1]));
+
         buttonStop.setDisable(true);
         setDisableAll(
                 false, buttonStart, sliderSwan, sliderCrawfish, sliderPike, textSBottom,
@@ -185,7 +207,8 @@ public class Controller {
 
     public void onResetButtonAction(ActionEvent actionEvent) {
 
-        // TODO: остановка всего действия
+        if (observerThread.isAlive())
+            observerThread.interrupt();
 
         buttonStop.setDisable(true);
         setDisableAll(

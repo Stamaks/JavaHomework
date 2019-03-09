@@ -1,10 +1,10 @@
 package karnaukhova;
 
 public class Hangman implements Runnable {
-    private int milliseconds;
+    private long milliseconds;
     private Thread[] threads;
 
-    public Hangman(int milliseconds, Thread ... threads) {
+    public Hangman(long milliseconds, Thread ... threads) {
         this.milliseconds = milliseconds;
         this.threads = threads;
     }
