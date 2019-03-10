@@ -27,7 +27,67 @@
        </MenuBar>
        <HBox prefHeight="599.0" prefWidth="1024.0">
           <children>
-            <Pane fx:id="drawPane" prefHeight="575.0" prefWidth="764.0" />
+            <Pane fx:id="drawPane" prefHeight="575.0" prefWidth="764.0">
+               <children>
+                  <ImageView fx:id="pikeImage" fitHeight="50.0" fitWidth="80.0" layoutX="403.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/pike.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="swanImage" fitHeight="50.0" fitWidth="75.0" layoutX="273.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/swan.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="crawfishImage" fitHeight="50.0" fitWidth="80.0" layoutX="396.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/crawfish.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="waggonImage" fitHeight="50.0" fitWidth="80.0" layoutX="343.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/waggon.png" />
+                     </image>
+                  </ImageView>
+                  <GridPane fx:id="gridPane" layoutX="413.0" layoutY="1.0" prefHeight="89.0" prefWidth="350.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="91.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="89.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0" prefWidth="85.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="86.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label prefHeight="25.0" prefWidth="95.0" text="Лебедь" />
+                        <Label prefHeight="22.0" prefWidth="95.0" text="Рак" GridPane.columnIndex="1" />
+                        <Label prefHeight="21.0" prefWidth="96.0" text="Щука" GridPane.columnIndex="2" />
+                        <Label prefHeight="23.0" prefWidth="94.0" text="Телега" GridPane.columnIndex="3" />
+                        <ImageView fx:id="sArrowImage" fitHeight="41.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" rotate="-60.0" GridPane.rowIndex="1">
+                           <image>
+                              <Image url="@img/arrow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="cArrowImage" fitHeight="41.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" rotate="-300.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <image>
+                              <Image url="@img/arrow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="pArrowImage" fitHeight="41.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" rotate="-160.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <image>
+                              <Image url="@img/arrow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="wArrowImage" fitHeight="41.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <image>
+                              <Image url="@img/arrow.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </children></Pane>
               <VBox alignment="TOP_RIGHT" centerShape="false" prefHeight="437.0" prefWidth="245.0">
                  <children>
                      <Label alignment="CENTER" prefHeight="32.0" prefWidth="253.0" text="Параметры" textAlignment="CENTER" />

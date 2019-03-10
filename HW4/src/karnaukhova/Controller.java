@@ -3,6 +3,8 @@ package karnaukhova;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
@@ -46,9 +48,15 @@ public class Controller {
     public Button buttonStop;
     public Button buttonReset;
     public Pane drawPane;
+    public ImageView swanImage;
     public ImageView pikeImage;
     public ImageView waggonImage;
     public ImageView crawfishImage;
+    public ImageView sArrowImage;
+    public ImageView cArrowImage;
+    public ImageView pArrowImage;
+    public ImageView wArrowImage;
+    public GridPane gridPane;
 
     private Observer observer;
     private Thread observerThread;
@@ -56,26 +64,7 @@ public class Controller {
 
     public void initialize() {
         setOnFocusLostListeners();
-        ImageView swanImage = new ImageView(new Image("karnaukhova/img/swan.png"));
-        ImageView pikeImage = new ImageView(new Image("karnaukhova/img/pike.png"));
-        ImageView crawfishImage = new ImageView(new Image("karnaukhova/img/crawfish.png"));
-        ImageView waggonImage = new ImageView(new Image("karnaukhova/img/waggon.png"));
-        swanImage.setFitWidth(80);
-        swanImage.setFitHeight(50);
-        pikeImage.setFitWidth(80);
-        pikeImage.setFitHeight(50);
-        crawfishImage.setFitWidth(80);
-        crawfishImage.setFitHeight(50);
-        waggonImage.setFitWidth(80);
-        waggonImage.setFitHeight(50);
-
-        double centerX = drawPane.getWidth() / 2;
-        double centerY = drawPane.getHeight() / 2;
-
-        waggonImage.relocate(0, 0);
-        swanImage.relocate(-waggonImage.getFitWidth() / 2, 0);
-//        pikeImage.relocate(waggonImage.);
-        drawPane.getChildren().addAll(swanImage, pikeImage, crawfishImage, waggonImage);
+        setOnSliderDragListeners();
     }
 
 
@@ -149,14 +138,7 @@ public class Controller {
 
         // TODO: сделать проверку на превышение интеджера
 
-        crawfishImage.setVisible(true);
-        crawfishImage.toFront();
-        crawfishImage.setX(drawPane.getWidth() / 2);
-        crawfishImage.setY(drawPane.getHeight() / 2);
-        drawPane.getChildren().clear();
-        drawPane.getChildren().addAll(crawfishImage, pikeImage);
-
-        drawPane.getChildren().clear();
+//        drawPane.getChildren().clear();
 
         initializeObserver();
         observerThread = new Thread(observer);
@@ -178,23 +160,21 @@ public class Controller {
             @Override
             protected void interpolate(double frac) {
                 // Спрашиваем координаты, отрисовываем новое положение тележки
+                double xOld = waggonImage.getX();
+                double yOld = waggonImage.getY();
                 newCoordinates = observer.getWaggonCoordinates();
-                //TODO: Не создавать каждый раз объект, когда не надо
-//                if (lines.size() != 0 && lines.get(lines.size() - 1).getStartX() == oldCoordinates[0] + centerX &&
-//                ){
-//                    double prevLineStartX = lines.get(lines.size() - 1).getStartX();
-//                    double prevLineStartY = lines.get(lines.size() - 1).getStartY();
-//                    double prevLineEndX = lines.get(lines.size() - 1).getEndX();
-//                    double prevLineEndY = lines.get(lines.size() - 1).getEndY();
-//
-//                    if (prevLineEndX)
-//                }
-                Line line = new Line(oldCoordinates[0] + centerX, oldCoordinates[1] + centerY,
-                        newCoordinates[0] + centerX, newCoordinates[1] + centerY);
 
-                drawPane.getChildren().add(line);
-                textWaggonX.setText(String.format("%.2f", newCoordinates[0]));
-                textWaggonY.setText(String.format("%.2f", newCoordinates[1]));
+                moveObjects(newCoordinates[0] * 5, newCoordinates[1] * 5);
+                double xNew = waggonImage.getX();
+                double yNew = waggonImage.getY();
+
+                if (!(xOld == xNew && yOld == yNew)) {
+                    Line line = new Line(xOld + centerX, yOld + centerY,
+                            xNew + centerX, yNew + centerY);
+                    drawPane.getChildren().add(line);
+                    textWaggonX.setText(String.format("%.2f", newCoordinates[0]));
+                    textWaggonY.setText(String.format("%.2f", newCoordinates[1]));
+                }
                 oldCoordinates[0] = newCoordinates[0];
                 oldCoordinates[1] = newCoordinates[1];
             }
@@ -239,15 +219,13 @@ public class Controller {
             }
         } catch (NullPointerException e) {}
 
-        drawPane.getChildren().clear();
-
         buttonStop.setDisable(true);
         setDisableAll(
                 false, buttonStart, sliderSwan, sliderCrawfish, sliderPike, textSBottom,
                 textSTop, textSleepBottom, textSleepTop, textDuration, textWaggonX, textWaggonY
         );
 
-        setControllersDefault();
+        setAllToDefault();
 
     }
 
@@ -324,6 +302,27 @@ public class Controller {
         });
     }
 
+    private void setOnSliderDragListeners() {
+        sliderSwan.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                sArrowImage.rotateProperty().setValue(-newValue.intValue());
+            }
+        });
+        sliderPike.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                pArrowImage.rotateProperty().setValue(-newValue.intValue());
+            }
+        });
+        sliderCrawfish.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                cArrowImage.rotateProperty().setValue(-newValue.intValue());
+            }
+        });
+    }
+
     private void checkLeftBoundary(TextField textFieldLeft, TextField textFieldRight) throws IOException {
         try {
             int result = Integer.parseInt(textFieldLeft.getText());
@@ -388,7 +387,18 @@ public class Controller {
         );
     }
 
-    private void setControllersDefault() {
+    private void moveObjects(double newWaggonCoordX, double newWaggonCoordY) {
+        waggonImage.setX(newWaggonCoordX);
+        waggonImage.setY(newWaggonCoordY);
+        swanImage.setX(newWaggonCoordX);
+        swanImage.setY(newWaggonCoordY);
+        pikeImage.setX(newWaggonCoordX);
+        pikeImage.setY(newWaggonCoordY);
+        crawfishImage.setX(newWaggonCoordX);
+        crawfishImage.setY(newWaggonCoordY);
+    }
+
+    private void setAllToDefault() {
         sliderSwan.setValue(60);
         sliderPike.setValue(180);
         sliderCrawfish.setValue(300);
@@ -399,6 +409,21 @@ public class Controller {
         textDuration.setText("25");
         textWaggonX.setText("0");
         textWaggonY.setText("0");
+
+        drawPane.getChildren().clear();
+        waggonImage.setX(0);
+        waggonImage.setY(0);
+        swanImage.setX(0);
+        swanImage.setY(0);
+        pikeImage.setX(0);
+        pikeImage.setY(0);
+        crawfishImage.setX(0);
+        crawfishImage.setY(0);
+        sArrowImage.rotateProperty().setValue(-sliderSwan.getValue());
+        pArrowImage.rotateProperty().setValue(-sliderPike.getValue());
+        cArrowImage.rotateProperty().setValue(-sliderCrawfish.getValue());
+        drawPane.getChildren().addAll(waggonImage, swanImage, pikeImage, crawfishImage, gridPane);
+
     }
 
     private void showErrorStage(Control control, String message) throws IOException {
