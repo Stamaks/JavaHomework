@@ -134,12 +134,20 @@
        </HBox>
        <HBox prefHeight="100.0" prefWidth="200.0">
           <children>
+            <Button fx:id="buttonShowFigures" layoutX="422.0" layoutY="10.0" mnemonicParsing="false" onAction="#onShowFiguresButtonAction" prefHeight="33.0" prefWidth="164.0" text="Скрыть объекты">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Button>
               <Button fx:id="buttonStart" mnemonicParsing="false" onAction="#onStartButtonAction" prefHeight="33.0" prefWidth="120.0" text="Start">
                   <opaqueInsets>
                       <Insets />
                   </opaqueInsets>
                   <HBox.margin>
-                      <Insets left="350.0" />
+                      <Insets left="150.0" />
                   </HBox.margin>
               </Button>
               <Button fx:id="buttonStop" disable="true" mnemonicParsing="false" onAction="#onStopButtonAction" prefHeight="33.0" prefWidth="120.0" text="Stop">

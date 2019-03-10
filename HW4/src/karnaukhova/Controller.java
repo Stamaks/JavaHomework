@@ -57,6 +57,7 @@ public class Controller {
     public ImageView pArrowImage;
     public ImageView wArrowImage;
     public GridPane gridPane;
+    public Button buttonShowFigures;
 
     private Observer observer;
     private Thread observerThread;
@@ -149,24 +150,25 @@ public class Controller {
             double[] newCoordinates;
             double centerX = drawPane.getWidth() / 2;
             double centerY = drawPane.getHeight() / 2;
-            List<Line> lines = new ArrayList<>();
+            double xOld, yOld, xNew, yNew;
+
             {
                 setDelay(Duration.ZERO);
                 setCycleDuration(Duration.millis(200));
                 setCycleCount((int) (duration * 1000 / 200 + 1)); // Кол-во секунд делить на сайкл дюрейшн
+                xOld = Double.parseDouble(textWaggonX.getText()) * 5;
+                yOld = Double.parseDouble(textWaggonY.getText()) * 5;
                 observerThread.start();
             }
 
             @Override
             protected void interpolate(double frac) {
                 // Спрашиваем координаты, отрисовываем новое положение тележки
-                double xOld = waggonImage.getX();
-                double yOld = waggonImage.getY();
                 newCoordinates = observer.getWaggonCoordinates();
 
                 moveObjects(newCoordinates[0] * 5, newCoordinates[1] * 5);
-                double xNew = waggonImage.getX();
-                double yNew = waggonImage.getY();
+                xNew = waggonImage.getX();
+                yNew = waggonImage.getY();
 
                 if (!(xOld == xNew && yOld == yNew)) {
                     Line line = new Line(xOld + centerX, yOld + centerY,
@@ -177,6 +179,8 @@ public class Controller {
                 }
                 oldCoordinates[0] = newCoordinates[0];
                 oldCoordinates[1] = newCoordinates[1];
+                xOld = xNew;
+                yOld = yNew;
             }
         };
 
@@ -423,7 +427,6 @@ public class Controller {
         pArrowImage.rotateProperty().setValue(-sliderPike.getValue());
         cArrowImage.rotateProperty().setValue(-sliderCrawfish.getValue());
         drawPane.getChildren().addAll(waggonImage, swanImage, pikeImage, crawfishImage, gridPane);
-
     }
 
     private void showErrorStage(Control control, String message) throws IOException {
@@ -435,5 +438,17 @@ public class Controller {
         alert.showAndWait();
 
         control.requestFocus();
+    }
+
+    public void onShowFiguresButtonAction(ActionEvent actionEvent) {
+        swanImage.setVisible(!swanImage.isVisible());
+        pikeImage.setVisible(!pikeImage.isVisible());
+        crawfishImage.setVisible(!crawfishImage.isVisible());
+        waggonImage.setVisible(!waggonImage.isVisible());
+
+        if (swanImage.isVisible())
+            buttonShowFigures.setText("Скрыть объекты");
+        else
+            buttonShowFigures.setText("Показать объекты");
     }
 }
