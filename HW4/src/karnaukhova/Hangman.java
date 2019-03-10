@@ -13,9 +13,7 @@ public class Hangman implements Runnable {
     public void run() {
         try {
             Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        } catch (InterruptedException e) {}
         finally {
             for (Thread thread : threads)
                 thread.interrupt();

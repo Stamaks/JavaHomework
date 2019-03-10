@@ -8,19 +8,20 @@ public class Observer implements Runnable {
     private long simulationDuration;
     private Waggon waggon;
     private Animal swan, pike, crawfish;
+    private Thread swanThread, crawfishThread, pikeThread, timer;
 
     @Override
     public void run() {
         System.out.println("Start");
 
         // Создаем потоки
-        Thread swanThread = new Thread(swan);
-        Thread crawfishThread = new Thread(crawfish);
-        Thread pikeThread = new Thread(pike);
+        swanThread = new Thread(swan);
+        crawfishThread = new Thread(crawfish);
+        pikeThread = new Thread(pike);
 
         // Ставим таймер
         Hangman hangman = new Hangman(simulationDuration, swanThread, crawfishThread, pikeThread);
-        Thread timer = new Thread(hangman);
+        timer = new Thread(hangman);
 
         swanThread.start();
         crawfishThread.start();
@@ -57,5 +58,9 @@ public class Observer implements Runnable {
 
     public double[] getWaggonCoordinates() {
         return waggon.getCoordinates();
+    }
+
+    public void killAll () {
+        timer.interrupt();
     }
 }

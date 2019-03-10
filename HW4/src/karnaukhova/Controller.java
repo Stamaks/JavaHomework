@@ -131,51 +131,37 @@ public class Controller {
 
         // TODO: начало всего действия
 
-        TranslateTransition transition = new TranslateTransition(Duration.ONE);
-
-//        waggonImage.setX(drawPane.getMaxWidth() / 2);
-//        waggonImage.setY(drawPane.getMaxHeight() / 2);
-//
-//        swanImage.setX(waggonImage.getX() + waggonImage.getFitWidth() / 2);
-
-//        swanImage.setVisible(true);
-//        drawPane.getChildren().add(swanImage);
-//        mainGroup.getChildren().add(swanImage);
-
-        Line line = new Line();
 
         // TODO: сделать проверку на превышение интеджера
 
-        double[] waggonStartCoordinates = new double[2];
-        waggonStartCoordinates[0] = Double.parseDouble(textWaggonX.getText());
-        waggonStartCoordinates[1] = Double.parseDouble(textWaggonY.getText());
-        int swanAngle = (int) Math.round(sliderSwan.getValue());
-        int pikeAngle = (int) Math.round(sliderPike.getValue());
-        int crawfishAngle = (int) Math.round(sliderCrawfish.getValue());
-        int sBottom = Integer.parseInt(textSBottom.getText());
-        int sTop = Integer.parseInt(textSTop.getText());
-        int sleepBottom = Integer.parseInt(textSleepBottom.getText());
-        int sleepTop = Integer.parseInt(textSleepTop.getText());
-        long duration = Integer.parseInt(textDuration.getText()) * 1000;
-
-        observer = new Observer(
-                waggonStartCoordinates, swanAngle, pikeAngle, crawfishAngle, sBottom, sTop, sleepBottom, sleepTop, duration
-        );
+        initializeObserver();
         observerThread = new Thread(observer);
-
+        long duration = Integer.parseInt(textDuration.getText());
 
         Animation animation = new Transition() {
+            double[] oldCoordinates = observer.getWaggonCoordinates();
+            double[] newCoordinates;
+            double centerX = drawPane.getWidth() / 2;
+            double centerY = drawPane.getHeight() / 2;
+            // TODO: если не получится - передаем сюда обзёрвер и поток
             {
                 setDelay(Duration.ZERO);
                 setCycleDuration(Duration.millis(200));
-                setCycleCount(10); // Кол-во секунд делить на дюрейшн
+                setCycleCount((int) (duration * 1000 / 200 + 1)); // Кол-во секунд делить на дюрейшн
                 observerThread.start();
             }
 
             @Override
             protected void interpolate(double frac) {
                 // Спрашиваем координаты, отрисовываем новое положение тележки
-
+                newCoordinates = observer.getWaggonCoordinates();
+                Line line = new Line(oldCoordinates[0] + centerX, oldCoordinates[1] + centerY,
+                        newCoordinates[0] + centerX, newCoordinates[1] + centerY);
+                drawPane.getChildren().add(line);
+                textWaggonX.setText(String.format("%.2f", newCoordinates[0]));
+                textWaggonY.setText(String.format("%.2f", newCoordinates[1]));
+                oldCoordinates[0] = newCoordinates[0];
+                oldCoordinates[1] = newCoordinates[1];
             }
         };
 
@@ -191,6 +177,7 @@ public class Controller {
 
     public void onStopButtonAction(ActionEvent actionEvent) {
 
+        observer.killAll();
         observerThread.interrupt();
 
         double[] waggonCoordinates = observer.getWaggonCoordinates();
@@ -207,8 +194,10 @@ public class Controller {
 
     public void onResetButtonAction(ActionEvent actionEvent) {
 
-        if (observerThread.isAlive())
+        if (observerThread.isAlive()) {
+            observer.killAll();
             observerThread.interrupt();
+        }
 
         buttonStop.setDisable(true);
         setDisableAll(
@@ -359,6 +348,24 @@ public class Controller {
     private void setDisableAll(boolean state, Control ... controls) {
         for (Control control: controls)
             control.setDisable(state);
+    }
+
+    private void initializeObserver() {
+        double[] waggonStartCoordinates = new double[2];
+        waggonStartCoordinates[0] = Double.parseDouble(textWaggonX.getText());
+        waggonStartCoordinates[1] = Double.parseDouble(textWaggonY.getText());
+        int swanAngle = (int) Math.round(sliderSwan.getValue());
+        int pikeAngle = (int) Math.round(sliderPike.getValue());
+        int crawfishAngle = (int) Math.round(sliderCrawfish.getValue());
+        int sBottom = Integer.parseInt(textSBottom.getText());
+        int sTop = Integer.parseInt(textSTop.getText());
+        int sleepBottom = Integer.parseInt(textSleepBottom.getText());
+        int sleepTop = Integer.parseInt(textSleepTop.getText());
+        long duration = Integer.parseInt(textDuration.getText()) * 1000;
+
+        observer = new Observer(
+                waggonStartCoordinates, swanAngle, pikeAngle, crawfishAngle, sBottom, sTop, sleepBottom, sleepTop, duration
+        );
     }
 
     private void setControllersDefault() {
