@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextArea fx:id="text" editable="false" focusTraversable="false" layoutX="-2.0" layoutY="-3.0" prefHeight="409.0" prefWidth="606.0" style="-fx-background-color: transparent; fx-border-color:transparent;" text="Здравствуйте! Меня зовут Алена, я автор этой программы. Если вы нашли в ней баг - пожалуйста, сообщите мне об этом по почте: st-mks@yandex.ru. Если вам понравилась программа, пожалуйста, сообщите об этом Ефиму Михайловичу :)&#10;&#10;Руководство:&#10;&#10;Справа находится панель с параметрами запуска симуляции. В интервалах распределения сдвига, а также в интервале распределения сна и продолжительности симуляции возможны только целые неотрицательные значения. Начальные координаты тележки могут быть любыми числами, однако заметьте, что если задать слишком большие по модулю числа, симуляция &quot;уедет&quot; за пределы экрана.&#10;Панель симуляции находится левее панели параметров запуска. С помощью кнопки &quot;Скрыть объекты/Показать объекты&quot; можно взаимодействовать с картинками.&#10;При нажатии на кнопку &quot;Старт&quot; симуляция начинается и длится до тех пор, пока не закончится с течением установленного времени или не будет остановлена кнопками &quot;Стоп&quot; или &quot;Сброс&quot;. Кнопка &quot;Сброс&quot; возвращает симуляцию и параметры на начальные позиции." wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextArea>
+   </children>
+</Pane>

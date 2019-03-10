@@ -3,8 +3,6 @@ package karnaukhova;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -22,8 +20,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Controller {
 
@@ -135,12 +131,6 @@ public class Controller {
     }
 
     public void onStartButtonAction(ActionEvent actionEvent) {
-
-
-        // TODO: сделать проверку на превышение интеджера
-
-//        drawPane.getChildren().clear();
-
         initializeObserver();
         observerThread = new Thread(observer);
         long duration = Integer.parseInt(textDuration.getText());
@@ -307,24 +297,12 @@ public class Controller {
     }
 
     private void setOnSliderDragListeners() {
-        sliderSwan.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                sArrowImage.rotateProperty().setValue(-newValue.intValue());
-            }
-        });
-        sliderPike.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                pArrowImage.rotateProperty().setValue(-newValue.intValue());
-            }
-        });
-        sliderCrawfish.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                cArrowImage.rotateProperty().setValue(-newValue.intValue());
-            }
-        });
+        sliderSwan.valueProperty().addListener((observable, oldValue, newValue) ->
+                sArrowImage.rotateProperty().setValue(-newValue.intValue()));
+        sliderPike.valueProperty().addListener((observable, oldValue, newValue) ->
+                pArrowImage.rotateProperty().setValue(-newValue.intValue()));
+        sliderCrawfish.valueProperty().addListener((observable, oldValue, newValue) ->
+                cArrowImage.rotateProperty().setValue(-newValue.intValue()));
     }
 
     private void checkLeftBoundary(TextField textFieldLeft, TextField textFieldRight) throws IOException {

@@ -18,7 +18,6 @@
           <menus>
               <Menu mnemonicParsing="false" text="Помощь">
                  <items>
-                     <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#onMenuItemHelpAction" text="О программе" />
                      <MenuItem fx:id="menuItemAuthor" mnemonicParsing="false" onAction="#onMenuItemAuthorAction" text="Об авторе" />
                   <MenuItem fx:id="menuItemExit" mnemonicParsing="false" onAction="#onMenuItemExitAction" text="Выйти" />
                  </items>
