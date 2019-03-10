@@ -11,21 +11,13 @@ public class Animal implements Runnable {
     private StringBuilder history;
     public Waggon waggon;
 
-    public String getSpecies() {
-        return species;
-    }
-
-    public double getAngle() {
-        return angle;
-    }
-
     public String getHistory() {
         return history.toString();
     }
 
     public Animal(String species, double angle, Waggon waggon) {
         this.species = species;
-        this.angle = angle;
+        this.angle = -angle * Math.PI / 180;
         this.waggon = waggon;
 
         history = new StringBuilder();
@@ -33,7 +25,7 @@ public class Animal implements Runnable {
 
     @Override
     public void run() {
-        System.out.printf("%s starts to pull with angle %.2f%n", species, angle);
+        history.append(String.format("%s starts to pull with angle %.2f%n", species, angle));
 
         while (true) {
             try {
@@ -46,7 +38,7 @@ public class Animal implements Runnable {
                 Thread.sleep(millsToSleep);
             }
             catch (InterruptedException e) {
-                System.out.printf("%s died of fatigue :(%n", species);
+                history.append(String.format("%s died of fatigue :(%n", species));
                 break;
             }
         }

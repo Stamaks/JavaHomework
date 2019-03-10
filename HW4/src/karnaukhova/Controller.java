@@ -2,19 +2,17 @@ package karnaukhova;
 
 import javafx.animation.Animation;
 import javafx.animation.Transition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -22,6 +20,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
 
@@ -46,19 +46,36 @@ public class Controller {
     public Button buttonStop;
     public Button buttonReset;
     public Pane drawPane;
-    public Group mainGroup;
-    public ImageView swanImage;
     public ImageView pikeImage;
     public ImageView waggonImage;
     public ImageView crawfishImage;
-    public Button exp1;
-    public Button exp2;
 
-    Observer observer;
-    Thread observerThread;
+    private Observer observer;
+    private Thread observerThread;
+    private Animation animation;
 
     public void initialize() {
         setOnFocusLostListeners();
+        ImageView swanImage = new ImageView(new Image("karnaukhova/img/swan.png"));
+        ImageView pikeImage = new ImageView(new Image("karnaukhova/img/pike.png"));
+        ImageView crawfishImage = new ImageView(new Image("karnaukhova/img/crawfish.png"));
+        ImageView waggonImage = new ImageView(new Image("karnaukhova/img/waggon.png"));
+        swanImage.setFitWidth(80);
+        swanImage.setFitHeight(50);
+        pikeImage.setFitWidth(80);
+        pikeImage.setFitHeight(50);
+        crawfishImage.setFitWidth(80);
+        crawfishImage.setFitHeight(50);
+        waggonImage.setFitWidth(80);
+        waggonImage.setFitHeight(50);
+
+        double centerX = drawPane.getWidth() / 2;
+        double centerY = drawPane.getHeight() / 2;
+
+        waggonImage.relocate(0, 0);
+        swanImage.relocate(-waggonImage.getFitWidth() / 2, 0);
+//        pikeImage.relocate(waggonImage.);
+        drawPane.getChildren().addAll(swanImage, pikeImage, crawfishImage, waggonImage);
     }
 
 
@@ -129,25 +146,32 @@ public class Controller {
 
     public void onStartButtonAction(ActionEvent actionEvent) {
 
-        // TODO: начало всего действия
-
 
         // TODO: сделать проверку на превышение интеджера
+
+        crawfishImage.setVisible(true);
+        crawfishImage.toFront();
+        crawfishImage.setX(drawPane.getWidth() / 2);
+        crawfishImage.setY(drawPane.getHeight() / 2);
+        drawPane.getChildren().clear();
+        drawPane.getChildren().addAll(crawfishImage, pikeImage);
+
+        drawPane.getChildren().clear();
 
         initializeObserver();
         observerThread = new Thread(observer);
         long duration = Integer.parseInt(textDuration.getText());
 
-        Animation animation = new Transition() {
+        animation = new Transition() {
             double[] oldCoordinates = observer.getWaggonCoordinates();
             double[] newCoordinates;
             double centerX = drawPane.getWidth() / 2;
             double centerY = drawPane.getHeight() / 2;
-            // TODO: если не получится - передаем сюда обзёрвер и поток
+            List<Line> lines = new ArrayList<>();
             {
                 setDelay(Duration.ZERO);
                 setCycleDuration(Duration.millis(200));
-                setCycleCount((int) (duration * 1000 / 200 + 1)); // Кол-во секунд делить на дюрейшн
+                setCycleCount((int) (duration * 1000 / 200 + 1)); // Кол-во секунд делить на сайкл дюрейшн
                 observerThread.start();
             }
 
@@ -155,8 +179,19 @@ public class Controller {
             protected void interpolate(double frac) {
                 // Спрашиваем координаты, отрисовываем новое положение тележки
                 newCoordinates = observer.getWaggonCoordinates();
+                //TODO: Не создавать каждый раз объект, когда не надо
+//                if (lines.size() != 0 && lines.get(lines.size() - 1).getStartX() == oldCoordinates[0] + centerX &&
+//                ){
+//                    double prevLineStartX = lines.get(lines.size() - 1).getStartX();
+//                    double prevLineStartY = lines.get(lines.size() - 1).getStartY();
+//                    double prevLineEndX = lines.get(lines.size() - 1).getEndX();
+//                    double prevLineEndY = lines.get(lines.size() - 1).getEndY();
+//
+//                    if (prevLineEndX)
+//                }
                 Line line = new Line(oldCoordinates[0] + centerX, oldCoordinates[1] + centerY,
                         newCoordinates[0] + centerX, newCoordinates[1] + centerY);
+
                 drawPane.getChildren().add(line);
                 textWaggonX.setText(String.format("%.2f", newCoordinates[0]));
                 textWaggonY.setText(String.format("%.2f", newCoordinates[1]));
@@ -165,7 +200,15 @@ public class Controller {
             }
         };
 
+        animation.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                afterAnimationStop();
+            }
+        });
+
         animation.play();
+
 
         buttonStop.setDisable(false);
 
@@ -177,27 +220,26 @@ public class Controller {
 
     public void onStopButtonAction(ActionEvent actionEvent) {
 
-        observer.killAll();
-        observerThread.interrupt();
+        if (observerThread.isAlive()) {
+            observer.killAll();
+            observerThread.interrupt();
+            animation.stop();
+        }
 
-        double[] waggonCoordinates = observer.getWaggonCoordinates();
-
-        textWaggonX.setText(java.lang.String.format("%.2f", waggonCoordinates[0]));
-        textWaggonY.setText(java.lang.String.format("%.2f", waggonCoordinates[1]));
-
-        buttonStop.setDisable(true);
-        setDisableAll(
-                false, buttonStart, sliderSwan, sliderCrawfish, sliderPike, textSBottom,
-                textSTop, textSleepBottom, textSleepTop, textDuration, textWaggonX, textWaggonY
-        );
+        afterAnimationStop();
     }
 
     public void onResetButtonAction(ActionEvent actionEvent) {
 
-        if (observerThread.isAlive()) {
-            observer.killAll();
-            observerThread.interrupt();
-        }
+        try {
+            if (observerThread.isAlive()) {
+                observer.killAll();
+                observerThread.interrupt();
+                animation.stop();
+            }
+        } catch (NullPointerException e) {}
+
+        drawPane.getChildren().clear();
 
         buttonStop.setDisable(true);
         setDisableAll(
@@ -210,108 +252,73 @@ public class Controller {
     }
 
     private void setOnFocusLostListeners(){
-        textSBottom.focusedProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+        textSBottom.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
             {
-                if (!newValue)
-                {
-                    try {
-                        onTextSBottomAction(new ActionEvent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    onTextSBottomAction(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        textSTop.focusedProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+        textSTop.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
             {
-                if (!newValue)
-                {
-                    try {
-                        onTextSTopAction(new ActionEvent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    onTextSTopAction(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        textSleepBottom.focusedProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+        textSleepBottom.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
             {
-                if (!newValue)
-                {
-                    try {
-                        onTextSleepBottomAction(new ActionEvent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    onTextSleepBottomAction(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        textSleepTop.focusedProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+        textSleepTop.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
             {
-                if (!newValue)
-                {
-                    try {
-                        onTextSleepTopAction(new ActionEvent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    onTextSleepTopAction(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        textDuration.focusedProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+        textDuration.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
             {
-                if (!newValue)
-                {
-                    try {
-                        onTextDurationAction(new ActionEvent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    onTextDurationAction(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        textWaggonX.focusedProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+        textWaggonX.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
             {
-                if (!newValue)
-                {
-                    try {
-                        onTextWaggonXAction(new ActionEvent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    onTextWaggonXAction(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        textWaggonY.focusedProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue)
+        textWaggonY.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
             {
-                if (!newValue)
-                {
-                    try {
-                        onTextWaggonYAction(new ActionEvent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    onTextWaggonYAction(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -368,6 +375,19 @@ public class Controller {
         );
     }
 
+    private void afterAnimationStop() {
+        double[] waggonCoordinates = observer.getWaggonCoordinates();
+
+        textWaggonX.setText(java.lang.String.format("%.2f", waggonCoordinates[0]));
+        textWaggonY.setText(java.lang.String.format("%.2f", waggonCoordinates[1]));
+
+        buttonStop.setDisable(true);
+        setDisableAll(
+                false, buttonStart, sliderSwan, sliderCrawfish, sliderPike, textSBottom,
+                textSTop, textSleepBottom, textSleepTop, textDuration, textWaggonX, textWaggonY
+        );
+    }
+
     private void setControllersDefault() {
         sliderSwan.setValue(60);
         sliderPike.setValue(180);
@@ -391,6 +411,4 @@ public class Controller {
 
         control.requestFocus();
     }
-
-
 }

@@ -12,8 +12,6 @@ public class Observer implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Start");
-
         // Создаем потоки
         swanThread = new Thread(swan);
         crawfishThread = new Thread(crawfish);
@@ -31,8 +29,6 @@ public class Observer implements Runnable {
         try {
             timer.join();
         } catch (InterruptedException e) {}
-
-        System.out.println(waggon.getHistory());
 
     }
 
@@ -62,5 +58,21 @@ public class Observer implements Runnable {
 
     public void killAll () {
         timer.interrupt();
+    }
+
+    public String getWaggonHistory() {
+        return waggon.getHistory();
+    }
+
+    public String getPikeHistory() {
+        return pike.getHistory();
+    }
+
+    public String getSwanHistory() {
+        return swan.getHistory();
+    }
+
+    public String getCrawfishHistory() {
+        return crawfish.getHistory();
     }
 }

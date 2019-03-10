@@ -27,34 +27,7 @@
        </MenuBar>
        <HBox prefHeight="599.0" prefWidth="1024.0">
           <children>
-            <Pane fx:id="drawPane" prefHeight="575.0" prefWidth="764.0">
-               <children>
-                  <Group fx:id="mainGroup" layoutY="100.0">
-                     <children>
-                        <ImageView fx:id="swanImage" fitHeight="128.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../Downloads/swan_PNG26.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="pikeImage" fitHeight="128.0" fitWidth="185.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../Downloads/179ca475cda4.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="waggonImage" fitHeight="128.0" fitWidth="185.0" layoutX="5.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../Downloads/14704265.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="crawfishImage" fitHeight="128.0" fitWidth="185.0" layoutX="15.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../Downloads/crawfish.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Group>
-               </children>
-            </Pane>
+            <Pane fx:id="drawPane" prefHeight="575.0" prefWidth="764.0" />
               <VBox alignment="TOP_RIGHT" centerShape="false" prefHeight="437.0" prefWidth="245.0">
                  <children>
                      <Label alignment="CENTER" prefHeight="32.0" prefWidth="253.0" text="Параметры" textAlignment="CENTER" />
@@ -109,7 +82,7 @@
                       <Insets left="350.0" />
                   </HBox.margin>
               </Button>
-              <Button fx:id="buttonStop" mnemonicParsing="false" onAction="#onStopButtonAction" prefHeight="33.0" prefWidth="120.0" text="Stop">
+              <Button fx:id="buttonStop" disable="true" mnemonicParsing="false" onAction="#onStopButtonAction" prefHeight="33.0" prefWidth="120.0" text="Stop">
                   <HBox.margin>
                       <Insets left="20.0" />
                   </HBox.margin>
